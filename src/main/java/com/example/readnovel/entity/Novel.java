@@ -53,6 +53,7 @@ public class Novel extends BaseEntity {
     private int view;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "novel")
     @JsonManagedReference
+    @OrderBy("title")
     private Set<Volume> volumes;
     @ManyToOne()
     @JsonBackReference

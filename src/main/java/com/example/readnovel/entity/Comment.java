@@ -21,19 +21,19 @@ public class Comment extends BaseEntity {
     @GeneratedValue(generator = "custom-name")
     @GenericGenerator(name = "custom-name", strategy = "com.example.readnovel.util.CustomId", parameters = @Parameter(name = "prefix", value = "CMT"))
     private String id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     private Comment parent;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH}, mappedBy = "parent")
     private List<Comment> child;
     @Column(columnDefinition = "TEXT")
     private String content;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     private Account account;
     private boolean isDeleted;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     private Novel novel;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     private Post post;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     private Chapter chapter;
 }

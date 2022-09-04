@@ -93,10 +93,10 @@ public class NovelController {
     }
     @PutMapping("chapter")
     public ResponseEntity<Object> updateChapter(@RequestBody ChapterDto chapterDto) throws CustomException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(chapterService.save(chapterDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(chapterService.update(chapterDto));
     }
     @DeleteMapping("chapter")
-    public ResponseEntity<Object> delChapter(@RequestBody ChapterDto chapterDto) throws CustomException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(chapterService.save(chapterDto));
+    public ResponseEntity<Object> delChapter(@RequestParam(defaultValue = "") String id) throws CustomException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(chapterService.delete(id));
     }
 }

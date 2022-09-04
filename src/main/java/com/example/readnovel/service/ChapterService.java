@@ -26,6 +26,8 @@ public class ChapterService {
         if (chapter==null){
             throw new CustomException("Chapter not found!");
         }
+        chapter.setView(chapter.getView()+1);
+        repository.save(chapter);
         return new ChapterDto(chapter);
     }
 
@@ -63,8 +65,9 @@ public class ChapterService {
         old.setVolume(optionalVolume.get());
         return new ChapterDto(repository.save(old));
     }
-    public void delete(String id){
+    public boolean delete(String id){
         repository.deleteById(id);
+        return true;
     }
     public void updateNovel(String novelId) throws CustomException {
         Optional<Novel> optionalNovel = novelRepository.findById(novelId);

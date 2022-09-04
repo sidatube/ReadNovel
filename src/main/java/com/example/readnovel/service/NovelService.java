@@ -117,7 +117,6 @@ public class NovelService {
         old.setSensitiveContent(newNovel.getSensitiveContent());
         old.setSummary(newNovel.getSummary());
         old.setTypeOfStory(newNovel.getTypeOfStory());
-        old.setView(newNovel.getView());
         old.setTranslationStatus(newNovel.getTranslationStatus());
         return new NovelDto(repository.save(old));
 
@@ -188,6 +187,7 @@ public class NovelService {
 
         if (account.isFollow(id)) {
             account.unFollow(id);
+            accountRepository.save(account);
             return false;
         }
         account.follow(novel);

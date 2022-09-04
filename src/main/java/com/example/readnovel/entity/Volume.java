@@ -26,6 +26,7 @@ public class Volume extends BaseEntity {
     @JsonBackReference
     private Novel novel;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "volume")
+    @OrderBy("number")
     private Set<Chapter> chapters;
     public String getSlug() {
         return StringHelper.toSlug(title, id);
