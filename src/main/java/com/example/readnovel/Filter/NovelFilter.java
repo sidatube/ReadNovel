@@ -1,5 +1,7 @@
 package com.example.readnovel.Filter;
 
+import com.example.readnovel.constant.TranslationStatus;
+import com.example.readnovel.constant.TypeOfStory;
 import lombok.*;
 
 import java.util.List;
@@ -17,5 +19,7 @@ public class NovelFilter {
     private String artist;
     private int index=1;
     private int size=20;
+    private List<TypeOfStory> typeOfStories;
+    private List<TranslationStatus> translationStatuses;
 
 }

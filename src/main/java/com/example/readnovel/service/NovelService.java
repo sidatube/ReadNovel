@@ -2,6 +2,8 @@ package com.example.readnovel.service;
 
 import com.example.readnovel.Filter.NovelFilter;
 import com.example.readnovel.constant.SearchCriteriaOperator;
+import com.example.readnovel.constant.TranslationStatus;
+import com.example.readnovel.constant.TypeOfStory;
 import com.example.readnovel.criteriaFilter.NovelSpecification;
 import com.example.readnovel.criteriaFilter.SearchCriteria;
 import com.example.readnovel.customException.CustomException;
@@ -167,7 +169,20 @@ public class NovelService {
                 NovelSpecification typeIds = new NovelSpecification(new SearchCriteria("typeIds", SearchCriteriaOperator.Join, str));
                 specification = specification.and(typeIds);
             }
-
+        }
+        if (novelFilter.getTypeOfStories() != null) {
+            for (TypeOfStory type : novelFilter.getTypeOfStories()
+            ) {
+                NovelSpecification typeOfStory = new NovelSpecification(new SearchCriteria("typeOfStory", SearchCriteriaOperator.Equals, type));
+                specification = specification.and(typeOfStory);
+            }
+        }
+        if (novelFilter.getTranslationStatuses() != null) {
+            for (TranslationStatus translationStatus : novelFilter.getTranslationStatuses()
+            ) {
+                NovelSpecification status = new NovelSpecification(new SearchCriteria("translationStatus", SearchCriteriaOperator.Equals, translationStatus));
+                specification = specification.and(status);
+            }
         }
         Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize());
         Page<Novel> novelPage = repository.findAll(specification, pageable);
