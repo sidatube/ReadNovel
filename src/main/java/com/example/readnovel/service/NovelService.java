@@ -170,14 +170,14 @@ public class NovelService {
                 specification = specification.and(typeIds);
             }
         }
-        if (novelFilter.getTypeOfStories() != null) {
+        if (!(novelFilter.getTypeOfStories() == null || novelFilter.getTypeOfStories().isEmpty())) {
             for (TypeOfStory type : novelFilter.getTypeOfStories()
             ) {
                 NovelSpecification typeOfStory = new NovelSpecification(new SearchCriteria("typeOfStory", SearchCriteriaOperator.Equals, type));
                 specification = specification.and(typeOfStory);
             }
         }
-        if (novelFilter.getTranslationStatuses() != null) {
+        if (!(novelFilter.getTranslationStatuses() == null || novelFilter.getTranslationStatuses().isEmpty())) {
             for (TranslationStatus translationStatus : novelFilter.getTranslationStatuses()
             ) {
                 NovelSpecification status = new NovelSpecification(new SearchCriteria("translationStatus", SearchCriteriaOperator.Equals, translationStatus));
