@@ -13,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -29,6 +30,7 @@ public class Novel extends BaseEntity {
     @GenericGenerator(name = "custom-name", strategy = "com.example.readnovel.util.CustomId", parameters = @Parameter(name = "prefix", value = "NOVEL"))
     private String id;
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String otherName;
     @Column(columnDefinition = "TEXT")
     private String avatar;
@@ -50,10 +52,11 @@ public class Novel extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String extraNote;
     private TranslationStatus translationStatus;
+    private Timestamp lastChap;
     private int view;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "novel")
     @JsonManagedReference
-    @OrderBy("title")
+    @OrderBy("number")
     private Set<Volume> volumes;
     @ManyToOne()
     @JsonBackReference

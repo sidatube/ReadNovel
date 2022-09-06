@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/novel")
+@PreAuthorize("hasAnyAuthority('admin','mod','user')")
 public class NovelController {
     @Autowired
     private NovelService service;

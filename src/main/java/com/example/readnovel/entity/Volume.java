@@ -22,6 +22,7 @@ public class Volume extends BaseEntity {
     @GenericGenerator(name = "custom-name",strategy = "com.example.readnovel.util.CustomId",parameters = @Parameter(name = "prefix",value = "VOL"))
     private String id;
     private String title;
+    private double number;
     @ManyToOne()
     @JsonBackReference
     private Novel novel;

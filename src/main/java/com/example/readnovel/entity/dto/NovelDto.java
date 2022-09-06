@@ -35,22 +35,25 @@ public class NovelDto {
 
     public NovelDto(Novel novel) {
         id = novel.getId();
-        name=novel.getName();
-        otherName=novel.getOtherName();
-        avatar=novel.getAvatar();
-        slug=novel.getSlug();
-        author=novel.getAuthor().getName();
-        artist=novel.getArtist().getName();
-        sensitiveContent=novel.getSensitiveContent();
-        typeOfStory=novel.getTypeOfStory();
-        summary=novel.getSummary();
-        if (novel.getTranslationTeam()!=null){
-            translationTeam=novel.getTranslationTeam().getName();
+        name = novel.getName();
+        otherName = novel.getOtherName();
+        avatar = novel.getAvatar();
+        slug = novel.getSlug();
+        if (novel.getAuthor() != null)
+            author = novel.getAuthor().getName();
+        if (novel.getArtist() != null)
+            artist = novel.getArtist().getName();
+        sensitiveContent = novel.getSensitiveContent();
+        typeOfStory = novel.getTypeOfStory();
+        summary = novel.getSummary();
+        if (novel.getTranslationTeam() != null) {
+            translationTeam = novel.getTranslationTeam().getName();
         }
-        if (novel.getVolumes()!=null){
-            volumes=novel.getVolumes().stream().map(VolumeDto::new).collect(Collectors.toList());
+        if (novel.getVolumes() != null) {
+            volumes = novel.getVolumes().stream().map(VolumeDto::new).collect(Collectors.toList());
         }
-        view=novel.getView();
-        types=novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
+        view = novel.getView();
+        if (novel.getTypes() != null)
+            types = novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
     }
 }

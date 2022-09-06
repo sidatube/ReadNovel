@@ -11,6 +11,8 @@ import com.example.readnovel.repository.VolumeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Service
@@ -75,6 +77,7 @@ public class ChapterService {
             throw  new CustomException("Novel not Found");
         }
         Novel novel = optionalNovel.get();
+        novel.setLastChap(new Timestamp(System.currentTimeMillis()));
         novelRepository.save(novel);
     }
 }

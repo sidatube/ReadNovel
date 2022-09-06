@@ -21,7 +21,8 @@ public class Chapter extends BaseEntity {
     @GenericGenerator(name = "custom-name",strategy = "com.example.readnovel.util.CustomId",parameters = @Parameter(name = "prefix",value = "CHAP"))
     private String id;
     private String title;
-    private String number;
+    private String numberTitle;
+    private float number;
     @Column(columnDefinition = "TEXT")
     private String content;
     @ManyToOne()

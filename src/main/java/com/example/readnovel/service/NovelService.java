@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class NovelService {
@@ -184,7 +185,7 @@ public class NovelService {
                 specification = specification.and(status);
             }
         }
-        Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize());
+        Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize(),Sort.by("lastChap").descending());
         Page<Novel> novelPage = repository.findAll(specification, pageable);
         return novelPage.map(NovelDto::new);
     }
@@ -212,6 +213,8 @@ public class NovelService {
 
     public Object getDetail(String id) throws CustomException {
         Novel find = findIdPrivate(id);
+        Set<Volume> volumes=  find.getVolumes();
+        List<Type> types= find.getTypes();
         find.setView(find.getView() + 1);
         return new NovelDto(repository.save(find));
     }
@@ -237,7 +240,7 @@ public class NovelService {
         Specification<Novel> specification = Specification.where(null);
         NovelSpecification followsFilter = new NovelSpecification(new SearchCriteria("follows", SearchCriteriaOperator.Join, username));
         specification = specification.and(followsFilter);
-        Pageable pageable = PageRequest.of(index-1,size,Sort.by("updatedAt").descending());
+        Pageable pageable = PageRequest.of(index-1,size,Sort.by("lastChap").descending().and(Sort.by("name")));
         Page<Novel> novelPage = repository.findAll(specification, pageable);
         return novelPage.map(NovelDto::new);
     }

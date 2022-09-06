@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/type")
 @PreAuthorize("hasAnyAuthority('admin','mod')")
-
 public class TypeController {
     @Autowired
     private TypeService service;
