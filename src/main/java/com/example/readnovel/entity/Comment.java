@@ -1,7 +1,6 @@
 package com.example.readnovel.entity;
 
 import com.example.readnovel.entity.base.BaseEntity;
-import javafx.geometry.Pos;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
