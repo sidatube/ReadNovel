@@ -6,6 +6,7 @@ import com.example.readnovel.entity.Novel;
 import com.example.readnovel.entity.Type;
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,7 @@ public class NovelDto {
     private int view;
     private VolumeDto lastVol;
     private ChapterDto lastChapter;
+    private Timestamp lastUpdate;
     private List<String> types;
 
     public NovelDto(Novel novel) {
@@ -60,6 +62,7 @@ public class NovelDto {
         if (novel.getLastChapter()!=null){
             lastChapter = new ChapterDto(novel.getLastChapter());
             lastVol = new VolumeDto(novel.getLastChapter().getVolume());
+            lastUpdate=novel.getLastUpdate();
         }
     }
 }
