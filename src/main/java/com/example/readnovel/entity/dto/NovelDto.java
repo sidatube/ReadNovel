@@ -57,12 +57,12 @@ public class NovelDto {
             volumes = novel.getVolumes().stream().map(VolumeDto::new).collect(Collectors.toList());
         }
         view = novel.getView();
+        lastUpdate=novel.getLastUpdate();
         if (novel.getTypes() != null)
             types = novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
         if (novel.getLastChapter()!=null){
             lastChapter = new ChapterDto(novel.getLastChapter());
             lastVol = new VolumeDto(novel.getLastChapter().getVolume());
-            lastUpdate=novel.getLastUpdate();
         }
     }
 }
