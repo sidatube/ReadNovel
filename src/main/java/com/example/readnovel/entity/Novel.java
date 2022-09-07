@@ -67,7 +67,7 @@ public class Novel extends BaseEntity {
     @JoinColumn(name="artistId")
     @JsonManagedReference
     private Artist artist;
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "lastChapterId")
     private Chapter lastChapter;
 

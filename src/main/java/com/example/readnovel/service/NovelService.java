@@ -185,7 +185,7 @@ public class NovelService {
                 specification = specification.and(status);
             }
         }
-        Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize(),Sort.by("lastChap").descending());
+        Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize(),Sort.by("lastUpdate").descending());
         Page<Novel> novelPage = repository.findAll(specification, pageable);
         return novelPage.map(NovelDto::new);
     }
@@ -240,7 +240,7 @@ public class NovelService {
         Specification<Novel> specification = Specification.where(null);
         NovelSpecification followsFilter = new NovelSpecification(new SearchCriteria("follows", SearchCriteriaOperator.Join, username));
         specification = specification.and(followsFilter);
-        Pageable pageable = PageRequest.of(index-1,size,Sort.by("lastChap").descending().and(Sort.by("name")));
+        Pageable pageable = PageRequest.of(index-1,size,Sort.by("lastUpdate").descending().and(Sort.by("name")));
         Page<Novel> novelPage = repository.findAll(specification, pageable);
         return novelPage.map(NovelDto::new);
     }
