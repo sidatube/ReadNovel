@@ -20,6 +20,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -121,6 +122,7 @@ public class NovelService {
         old.setSummary(newNovel.getSummary());
         old.setTypeOfStory(newNovel.getTypeOfStory());
         old.setTranslationStatus(newNovel.getTranslationStatus());
+        old.setLastUpdate(new Timestamp(System.currentTimeMillis()));
         return new NovelDto(repository.save(old));
 
     }
