@@ -1,18 +1,16 @@
 package com.example.readnovel.service;
 
 import com.example.readnovel.customException.CustomException;
-import com.example.readnovel.entity.Chapter;
-import com.example.readnovel.entity.Novel;
-import com.example.readnovel.entity.Volume;
+import com.example.readnovel.entity.*;
 import com.example.readnovel.entity.dto.ChapterDto;
-import com.example.readnovel.repository.ChapterRepository;
-import com.example.readnovel.repository.NovelRepository;
-import com.example.readnovel.repository.VolumeRepository;
+import com.example.readnovel.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -23,6 +21,12 @@ public class ChapterService {
     private VolumeRepository volumeRepository;
     @Autowired
     private NovelRepository novelRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private HistoryItemRepository itemRepository;
+    @Autowired
+    private HistoryReadRepository historyReadRepository;
     public Object findById(String id) throws CustomException {
         Chapter chapter= repository.findById(id).orElse(null);
         if (chapter==null){
@@ -30,6 +34,17 @@ public class ChapterService {
         }
         chapter.setView(chapter.getView()+1);
         repository.save(chapter);
+        String username=SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Account> optionalAccount = accountRepository.findByUsername(username);
+        if (!optionalAccount.isPresent()){
+            throw new CustomException("Account not found!");
+        }
+        Optional<HistoryRead> optionalHistoryRead = historyReadRepository.findByUsername(username);
+        HistoryRead historyRead = optionalHistoryRead.orElseGet(() -> historyReadRepository.save(HistoryRead.builder().account(optionalAccount.get()).historyItems(new ArrayList<>()).build()));
+        Novel novel = chapter.getVolume().getNovel();
+        HistoryItem historyItem = historyRead.getHistoryItem(novel);
+        historyItem.setLastChap(chapter);
+        itemRepository.save(historyItem);
         return new ChapterDto(chapter);
     }
 
@@ -48,8 +63,9 @@ public class ChapterService {
         if (chapter.getTitle().isEmpty()|| chapter.getContent().isEmpty()||chapter.getVolume()==null){
             throw new NullPointerException();
         }
-        updateNovel(optionalVolume.get().getNovel().getId());
-        return new ChapterDto(repository.save(chapter));
+        Chapter saved=repository.save(chapter);
+        updateNovel(optionalVolume.get().getNovel().getId(),saved);
+        return new ChapterDto(saved);
     }
     public Object update(ChapterDto chapterDto) throws CustomException{
         Optional<Chapter> optionalChapter = repository.findById(chapterDto.getId());
@@ -71,13 +87,14 @@ public class ChapterService {
         repository.deleteById(id);
         return true;
     }
-    public void updateNovel(String novelId) throws CustomException {
+    public void updateNovel(String novelId,Chapter saved) throws CustomException {
         Optional<Novel> optionalNovel = novelRepository.findById(novelId);
         if (!optionalNovel.isPresent()){
             throw  new CustomException("Novel not Found");
         }
         Novel novel = optionalNovel.get();
-        novel.setLastChap(new Timestamp(System.currentTimeMillis()));
+        novel.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        novel.setLastChapter(saved);
         novelRepository.save(novel);
     }
 }

@@ -27,18 +27,19 @@ public class CommentDto {
 
     public CommentDto(Comment comment) {
         id = comment.getId();
-        parentId = comment.getParent().getId();
+        if (comment.getParent() != null)
+            parentId = comment.getParent().getId();
         if (comment.getChild() != null)
             childIds = comment.getChild().stream().map(Comment::getId).collect(Collectors.toList());
         content = comment.getContent();
         updatedAt = comment.getUpdatedAt();
-        userName = comment.getAccount().getUsername();
+        if (comment.getAccount() != null)
+            userName = comment.getAccount().getUsername();
         isDeleted = comment.isDeleted();
         if (comment.getNovel() != null) {
             areaEnum = AreaEnum.NOVEL;
             areaId = comment.getNovel().getId();
         }
-
         if (comment.getPost() != null) {
             areaEnum = AreaEnum.POST;
             areaId = comment.getPost().getId();

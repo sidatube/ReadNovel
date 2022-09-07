@@ -627,7 +627,7 @@ public class DataSeed implements CommandLineRunner {
             chapters.add(arafooChap0);
             chapters.add(arafooChap1);
             chapters.add(imotouChap);
-            chapters.add(Chapter.builder()
+            Chapter oregairuChap =Chapter.builder()
                     .numberTitle("Prelude")
                     .volume(oregairu)
                     .title("Và rồi, Hikigaya Komachi đã nói…")
@@ -705,14 +705,18 @@ public class DataSeed implements CommandLineRunner {
                             "<p id=\"72\">Sau đó, nếu có bất kỳ điều gì khác xảy ra, tôi sẽ cho bạn biết.</p>" +
                             "<p id=\"73\">Chuyện là như vậy đó…</p>" +
                             "<p id=\"74\">Từ nay về sau vẫn mong được mọi người giúp đỡ nhé!</p>\n")
-                    .build());
+                    .build();
+            chapters.add(oregairuChap);
             chapterRepository.saveAll(chapters);
             Novel arafooLn =arafoo.getNovel();
-            arafooLn.setLastChap(new Timestamp(System.currentTimeMillis()));
+            arafooLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+            arafooLn.setLastChapter(arafooChap1);
             Novel oregairuLn =oregairu.getNovel();
-            oregairuLn.setLastChap(new Timestamp(System.currentTimeMillis()));
+            oregairuLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+            oregairuLn.setLastChapter(oregairuChap);
             Novel imotouLn =imotou.getNovel();
-            imotouLn.setLastChap(new Timestamp(System.currentTimeMillis()));
+            imotouLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+            imotouLn.setLastChapter(imotouChap);
             novelRepository.save(arafooLn);
             novelRepository.save(imotouLn);
             novelRepository.save(oregairuLn);

@@ -25,18 +25,19 @@ public class CommentSpecification extends GenericSpecification<Comment> {
                             criteriaBuilder.like(criteriaBuilder.lower(commentAccountJoin.get("username")), "%" + getSearchCriteria().getValue() + "%"));
                 case "post":
                     Join<Comment, Post> post = root.join("post");
+
                     return criteriaBuilder.or(
-                            criteriaBuilder.notEqual(criteriaBuilder.lower(post.get("id")), null)
+                            criteriaBuilder.like(criteriaBuilder.lower(post.get("id")), "%" + getSearchCriteria().getValue() + "%")
                     );
                 case "novel":
                     Join<Comment, Novel> novel = root.join("novel");
                     return criteriaBuilder.or(
-                            criteriaBuilder.notEqual(criteriaBuilder.lower(novel.get("id")), null)
+                            criteriaBuilder.like(criteriaBuilder.lower(novel.get("id")), "%" + getSearchCriteria().getValue() + "%")
                     );
                 case "chapter":
                     Join<Comment, Post> chapter = root.join("chapter");
                     return criteriaBuilder.or(
-                            criteriaBuilder.notEqual(criteriaBuilder.lower(chapter.get("id")), null)
+                            criteriaBuilder.like(criteriaBuilder.lower(chapter.get("id")), "%" + getSearchCriteria().getValue() + "%")
                     );
                 default:
                     break;

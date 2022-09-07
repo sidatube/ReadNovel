@@ -1,12 +1,10 @@
 package com.example.readnovel.entity;
 
-import com.example.readnovel.constant.AccountStatusEnum;
 import com.example.readnovel.constant.TranslationStatus;
 import com.example.readnovel.constant.TypeOfStory;
 import com.example.readnovel.entity.base.BaseEntity;
 import com.example.readnovel.util.StringHelper;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -52,7 +50,7 @@ public class Novel extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String extraNote;
     private TranslationStatus translationStatus;
-    private Timestamp lastChap;
+    private Timestamp lastUpdate;
     private int view;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "novel")
     @JsonManagedReference
@@ -69,6 +67,9 @@ public class Novel extends BaseEntity {
     @JoinColumn(name="artistId")
     @JsonManagedReference
     private Artist artist;
+    @OneToOne
+    @JoinColumn(name = "lastChapterId")
+    private Chapter lastChapter;
 
     public String getSlug() {
         return StringHelper.toSlug(name, id);

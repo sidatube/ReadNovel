@@ -31,6 +31,8 @@ public class NovelDto {
     private String extraNote;
     private TranslationStatus translationStatus;
     private int view;
+    private VolumeDto lastVol;
+    private ChapterDto lastChapter;
     private List<String> types;
 
     public NovelDto(Novel novel) {
@@ -55,5 +57,9 @@ public class NovelDto {
         view = novel.getView();
         if (novel.getTypes() != null)
             types = novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
+        if (novel.getLastChapter()!=null){
+            lastChapter = new ChapterDto(novel.getLastChapter());
+            lastVol = new VolumeDto(novel.getLastChapter().getVolume());
+        }
     }
 }

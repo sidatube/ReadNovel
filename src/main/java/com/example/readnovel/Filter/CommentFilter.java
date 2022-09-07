@@ -13,7 +13,8 @@ import java.util.List;
 @Builder
 public class CommentFilter {
     private String username;
-    private AreaEnum areaEnum;
+    private AreaEnum areaEnum =AreaEnum.ALL;
+    private String  areaId;
     private String content;
     private int index=1;
     private int size=20;
