@@ -20,6 +20,8 @@ public class NovelMinDto {
     private Timestamp lastUpdate;
 
     public NovelMinDto(Novel novel) {
+        lastChapTitle = "Chương 0: Mở đầu";
+        volumeName = "Tập 1";
         if (novel.getLastChapter() != null) {
             lastChapTitle =novel.getLastChapter().getNumberTitle()+": "+ novel.getLastChapter().getTitle();
             lastChapId = novel.getLastChapter().getId();
