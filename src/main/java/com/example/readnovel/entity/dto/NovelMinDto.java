@@ -21,7 +21,7 @@ public class NovelMinDto {
 
     public NovelMinDto(Novel novel) {
         if (novel.getLastChapter() != null) {
-            lastChapTitle = novel.getLastChapter().getTitle();
+            lastChapTitle =novel.getLastChapter().getNumberTitle()+": "+ novel.getLastChapter().getTitle();
             lastChapId = novel.getLastChapter().getId();
             volumeName = novel.getLastChapter().getVolume().getTitle();
         }

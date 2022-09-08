@@ -14,7 +14,6 @@ public class ChapterMinDto {
     private String id;
     private String title;
     private String volumeId;
-    private String numberTitle;
     private boolean isLock =false;
     private int view;
     private Timestamp createdAt;
@@ -22,8 +21,7 @@ public class ChapterMinDto {
 
     public ChapterMinDto(Chapter chapter) {
         id = chapter.getId();
-        title= chapter.getTitle();
-        numberTitle =chapter.getNumberTitle();
+        title=chapter.getNumberTitle()+": "+ chapter.getTitle();
         volumeId = chapter.getVolume().getId();
         isLock = chapter.isLock();
         view=chapter.getView();
