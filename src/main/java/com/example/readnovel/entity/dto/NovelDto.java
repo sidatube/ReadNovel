@@ -31,6 +31,7 @@ public class NovelDto {
     private String extraNote;
     private TranslationStatus translationStatus;
     private int view;
+    private int countFollow;
     private VolumeDto lastVol;
     private ChapterMinDto lastChapter;
     private Timestamp lastUpdate;
@@ -63,6 +64,9 @@ public class NovelDto {
         if (novel.getLastChapter()!=null){
             lastChapter = new ChapterMinDto(novel.getLastChapter());
             lastVol = new VolumeDto(novel.getLastChapter().getVolume());
+        }
+        if (novel.getAccounts()!=null){
+            countFollow= novel.getAccounts().size();
         }
     }
 }

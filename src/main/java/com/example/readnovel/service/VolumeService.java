@@ -24,7 +24,7 @@ public class VolumeService {
             throw new NullPointerException();
         }
         Novel novel = findNovel(dto.getNovelId());
-        Volume volume = Volume.builder().title(dto.getTitle()).novel(novel).build();
+        Volume volume = Volume.builder().title(dto.getTitle()).thumbnail(dto.getThumbnail()).novel(novel).build();
         return new VolumeDto(repository.save(volume));
     }
 
@@ -50,6 +50,8 @@ public class VolumeService {
             throw new CustomException("Title is empty!");
         }
         old.setTitle(dto.getTitle());
+        old.setNumber(dto.getNumber());
+        old.setThumbnail(dto.getThumbnail());
         return new VolumeDto(repository.save(old));
 
     }

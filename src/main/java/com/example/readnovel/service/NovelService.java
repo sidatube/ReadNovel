@@ -225,6 +225,8 @@ public class NovelService {
             if (account.getNovels() != null)
                 novelDto.setFollow(account.isFollow(novelDto.getId()));
         }
+
+
         return novelDto;
     }
 

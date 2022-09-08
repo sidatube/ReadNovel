@@ -16,11 +16,14 @@ public class VolumeDto {
     private String id;
     private String title;
     private String novelId;
+    private double number;
+    private String thumbnail;
     private List<ChapterMinDto> chapters;
 
     public VolumeDto(Volume volume) {
         id = volume.getId();
         title = volume.getTitle();
+        thumbnail = volume.getThumbnail();
         if (volume.getNovel() != null)
             novelId = volume.getNovel().getId();
         if (volume.getChapters() != null)
