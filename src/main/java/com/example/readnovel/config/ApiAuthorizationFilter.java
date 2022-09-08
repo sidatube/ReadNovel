@@ -21,7 +21,7 @@ import java.util.*;
 import static java.util.Arrays.stream;
 
 @RequiredArgsConstructor
-public class ApiAuthorizationFilter extends OncePerRequestFilter {    private static final String[] IGNORE_PATHS = {"/api/v1/login", "/api/v1/register", "/api/v1/token/refresh"};
+public class ApiAuthorizationFilter extends OncePerRequestFilter {    private static final String[] IGNORE_PATHS = {"/api/v1/login", "/api/v1/register", "/api/v1/refreshToken"};
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
