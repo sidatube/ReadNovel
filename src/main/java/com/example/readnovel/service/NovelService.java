@@ -9,6 +9,7 @@ import com.example.readnovel.criteriaFilter.SearchCriteria;
 import com.example.readnovel.customException.CustomException;
 import com.example.readnovel.entity.*;
 import com.example.readnovel.entity.dto.NovelDto;
+import com.example.readnovel.entity.dto.NovelMinDto;
 import com.example.readnovel.repository.*;
 import com.example.readnovel.util.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,7 +190,7 @@ public class NovelService {
         }
         Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize(),Sort.by("lastUpdate").descending());
         Page<Novel> novelPage = repository.findAll(specification, pageable);
-        return novelPage.map(NovelDto::new);
+        return novelPage.map(NovelMinDto::new);
     }
 
     public boolean adminDelete(String id) throws CustomException {
@@ -224,7 +225,7 @@ public class NovelService {
     public Object getHot() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("view").descending());
         Page<Novel> novelPage = repository.findAll(pageable);
-        return novelPage.map(NovelDto::new);
+        return novelPage.map(NovelMinDto::new);
     }
 
     private Account findAccount(String username) throws CustomException {
@@ -244,6 +245,6 @@ public class NovelService {
         specification = specification.and(followsFilter);
         Pageable pageable = PageRequest.of(index-1,size,Sort.by("lastUpdate").descending().and(Sort.by("name")));
         Page<Novel> novelPage = repository.findAll(specification, pageable);
-        return novelPage.map(NovelDto::new);
+        return novelPage.map(NovelMinDto::new);
     }
 }

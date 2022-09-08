@@ -16,7 +16,7 @@ public class VolumeDto {
     private String id;
     private String title;
     private String novelId;
-    private List<ChapterDto> chapters;
+    private List<ChapterMinDto> chapters;
 
     public VolumeDto(Volume volume) {
         id = volume.getId();
@@ -24,6 +24,6 @@ public class VolumeDto {
         if (volume.getNovel() != null)
             novelId = volume.getNovel().getId();
         if (volume.getChapters() != null)
-            chapters = volume.getChapters().stream().map(ChapterDto::new).collect(Collectors.toList());
+            chapters = volume.getChapters().stream().map(ChapterMinDto::new).collect(Collectors.toList());
     }
 }

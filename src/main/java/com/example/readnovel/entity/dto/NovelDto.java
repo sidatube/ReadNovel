@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
 public class NovelDto {
     private String id;
@@ -33,7 +32,7 @@ public class NovelDto {
     private TranslationStatus translationStatus;
     private int view;
     private VolumeDto lastVol;
-    private ChapterDto lastChapter;
+    private ChapterMinDto lastChapter;
     private Timestamp lastUpdate;
     private List<String> types;
 
@@ -61,7 +60,7 @@ public class NovelDto {
         if (novel.getTypes() != null)
             types = novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
         if (novel.getLastChapter()!=null){
-            lastChapter = new ChapterDto(novel.getLastChapter());
+            lastChapter = new ChapterMinDto(novel.getLastChapter());
             lastVol = new VolumeDto(novel.getLastChapter().getVolume());
         }
     }
