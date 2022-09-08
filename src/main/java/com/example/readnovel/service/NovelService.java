@@ -188,7 +188,7 @@ public class NovelService {
                 specification = specification.and(status);
             }
         }
-        Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize(),Sort.by("lastUpdate").descending());
+        Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize(), Sort.by("lastUpdate").descending());
         Page<Novel> novelPage = repository.findAll(specification, pageable);
         return novelPage.map(NovelMinDto::new);
     }
@@ -216,10 +216,16 @@ public class NovelService {
 
     public Object getDetail(String id) throws CustomException {
         Novel find = findIdPrivate(id);
-        Set<Volume> volumes=  find.getVolumes();
-        List<Type> types= find.getTypes();
         find.setView(find.getView() + 1);
-        return new NovelDto(repository.save(find));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Account> optionalAccount = accountRepository.findByUsername(username);
+        NovelDto novelDto = new NovelDto(repository.save(find));
+        if (optionalAccount.isPresent()) {
+            Account account = optionalAccount.get();
+            if (account.getNovels() != null)
+                novelDto.setFollow(account.isFollow(novelDto.getId()));
+        }
+        return novelDto;
     }
 
     public Object getHot() {
@@ -243,7 +249,7 @@ public class NovelService {
         Specification<Novel> specification = Specification.where(null);
         NovelSpecification followsFilter = new NovelSpecification(new SearchCriteria("follows", SearchCriteriaOperator.Join, username));
         specification = specification.and(followsFilter);
-        Pageable pageable = PageRequest.of(index-1,size,Sort.by("lastUpdate").descending().and(Sort.by("name")));
+        Pageable pageable = PageRequest.of(index - 1, size, Sort.by("lastUpdate").descending().and(Sort.by("name")));
         Page<Novel> novelPage = repository.findAll(specification, pageable);
         return novelPage.map(NovelMinDto::new);
     }

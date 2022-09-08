@@ -34,6 +34,7 @@ public class NovelDto {
     private VolumeDto lastVol;
     private ChapterMinDto lastChapter;
     private Timestamp lastUpdate;
+    private boolean isFollow =false;
     private List<String> types;
 
     public NovelDto(Novel novel) {
