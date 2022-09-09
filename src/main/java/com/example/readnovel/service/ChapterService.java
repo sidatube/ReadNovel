@@ -81,6 +81,7 @@ public class ChapterService {
         Chapter old = optionalChapter.get();
         old.setTitle(chapterDto.getTitle());
         old.setNumber(chapterDto.getNumber());
+        old.setNumberTitle(chapterDto.getNumberTitle());
         old.setContent(chapterDto.getContent());
         old.setLock(chapterDto.isLock());
         old.setVolume(optionalVolume.get());
