@@ -231,8 +231,7 @@ public class NovelService {
 
     public Page<Novel> getHot() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("view").descending());
-        Page<Novel> novelPage = repository.findAll(pageable);
-        return novelPage;
+        return repository.findAll(pageable);
     }
 
     private Account findAccount(String username) throws CustomException {

@@ -65,4 +65,12 @@ public class VolumeService {
         return true;
     }
 
+    public Object getDetail(String id) throws CustomException {
+        return new VolumeDto(findById(id));
+    }
+
+    public Object getVolsByNovelId(String id) throws CustomException {
+        Novel novel = findNovel(id);
+        return novel.getVolumes().stream().map(VolumeDto::new);
+    }
 }

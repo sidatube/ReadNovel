@@ -83,7 +83,7 @@ public class AccountService {
         Account account = accountRepository.findByUsername(changePassword.getUsername()).orElse(null);
 
         if (account==null||!account.getEmail().equals(changePassword.getEmail())){
-            StringHelper.customException("information has error");
+            StringHelper.customException("Information has error");
         }
         if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())){
             StringHelper.customException("Password and repeat password are not same!");

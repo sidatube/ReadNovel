@@ -20,7 +20,6 @@ public class TypeController {
     @GetMapping
     public ResponseEntity<Object> getAll(@RequestParam(defaultValue = "") String name) {
         return ResponseEntity.ok(service.findAll(name));
-
     }
 
     @PostMapping("create")
@@ -37,7 +36,8 @@ public class TypeController {
     public ResponseEntity<Object> update(@RequestBody TypeDto update) throws CustomException {
         return ResponseEntity.ok().body(service.update(update));
     }
- @DeleteMapping("delete")
+
+    @DeleteMapping("delete")
     public ResponseEntity<Object> delete(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.ok().body(service.delete(id));
     }

@@ -55,7 +55,7 @@ public class Novel extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "novel")
     @JsonManagedReference
     @OrderBy("number")
-    private Set<Volume> volumes;
+    private List<Volume> volumes;
     @ManyToOne()
     @JsonBackReference
     private Account translator;

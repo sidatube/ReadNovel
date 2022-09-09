@@ -2,11 +2,13 @@ package com.example.readnovel.entity;
 
 import com.example.readnovel.entity.base.BaseEntity;
 import com.example.readnovel.util.StringHelper;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -18,7 +20,7 @@ import javax.persistence.*;
 public class Chapter extends BaseEntity {
     @Id
     @GeneratedValue(generator = "custom-name")
-    @GenericGenerator(name = "custom-name",strategy = "com.example.readnovel.util.CustomId",parameters = @Parameter(name = "prefix",value = "CHAP"))
+    @GenericGenerator(name = "custom-name", strategy = "com.example.readnovel.util.CustomId", parameters = @Parameter(name = "prefix", value = "CHAP"))
     private String id;
     private String title;
     private String numberTitle;
@@ -26,24 +28,36 @@ public class Chapter extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
     @ManyToOne()
+    @JsonIgnoreProperties("chapters")
     private Volume volume;
     private int view;
-    private boolean isLock= false;
+    private boolean isLock = false;
     private String slug;
+
     public String getSlug() {
         return StringHelper.toSlug(title, id);
     }
 
-    public void update(Chapter newChap){
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Chapter chapter = (Chapter) o;
+        return Objects.equals(id, chapter.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public void update(Chapter newChap) {
         this.title = newChap.getTitle();
         this.content = newChap.getContent();
         this.volume = newChap.getVolume();
         this.view = newChap.getView();
         this.isLock = newChap.isLock();
     }
-
-
-
 
 
 }

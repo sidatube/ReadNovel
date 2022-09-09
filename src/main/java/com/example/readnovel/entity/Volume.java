@@ -3,11 +3,14 @@ package com.example.readnovel.entity;
 import com.example.readnovel.entity.base.BaseEntity;
 import com.example.readnovel.util.StringHelper;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -24,14 +27,27 @@ public class Volume extends BaseEntity {
     private String title;
     private String thumbnail;
     private double number;
+    @Column(updatable = false,insertable = false)
+    private String novelId;
     @ManyToOne()
+    @JoinColumn(name = "novelId")
     @JsonBackReference
     private Novel novel;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "volume")
     @OrderBy("number")
-    private Set<Chapter> chapters;
-    public String getSlug() {
-        return StringHelper.toSlug(title, id);
+    @JsonIgnoreProperties("volume")
+    private List<Chapter> chapters;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Volume volume = (Volume) o;
+        return Objects.equals(id, volume.id);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
