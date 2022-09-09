@@ -4,6 +4,7 @@ import com.example.readnovel.Filter.NovelFilter;
 import com.example.readnovel.customException.CustomException;
 import com.example.readnovel.entity.dto.ChapterDto;
 import com.example.readnovel.entity.dto.NovelDto;
+import com.example.readnovel.entity.dto.NovelMinDto;
 import com.example.readnovel.entity.dto.VolumeDto;
 import com.example.readnovel.service.ChapterService;
 import com.example.readnovel.service.NovelService;
@@ -27,11 +28,20 @@ public class NovelController {
 
     @PostMapping
     public ResponseEntity<Object> getList(@RequestBody NovelFilter novelFilter) {
-        return ResponseEntity.ok().body(service.getList(novelFilter));
+        return ResponseEntity.ok().body(service.getList(novelFilter).map(NovelMinDto::new));
+    }
+    @PostMapping("admin")
+    public ResponseEntity<Object> adminGetList(@RequestBody NovelFilter novelFilter) {
+        return ResponseEntity.ok().body(service.getList(novelFilter).map(NovelDto::new));
     }
     @GetMapping("hot")
     public ResponseEntity<Object> getHot() {
-        return ResponseEntity.ok().body(service.getHot());
+        return ResponseEntity.ok().body(service.getHot().map(NovelMinDto::new));
+    }
+
+    @GetMapping("adminHot")
+    public ResponseEntity<Object> adminGetHot() {
+        return ResponseEntity.ok().body(service.getHot().map(NovelDto::new));
     }
     @PostMapping("create")
     public ResponseEntity<Object> save(@RequestBody NovelDto novelDto) throws CustomException {

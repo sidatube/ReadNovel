@@ -58,6 +58,7 @@ public class ChapterService {
                 .title(chapterDto.getTitle())
                 .content(chapterDto.getContent())
                 .number(chapterDto.getNumber())
+                .numberTitle(chapterDto.getNumberTitle())
                 .isLock(chapterDto.isLock())
                 .volume(optionalVolume.get())
                 .build();

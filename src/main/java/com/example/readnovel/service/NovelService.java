@@ -149,7 +149,7 @@ public class NovelService {
         return true;
     }
 
-    public Object getList(NovelFilter novelFilter) {
+    public Page<Novel> getList(NovelFilter novelFilter) {
         Specification<Novel> specification = Specification.where(null);
         if (!(novelFilter.getName() == null || novelFilter.getName().isEmpty())) {
             String strFilter = StringHelper.removeAccent(novelFilter.getName());
@@ -189,8 +189,7 @@ public class NovelService {
             }
         }
         Pageable pageable = PageRequest.of(novelFilter.getIndex() - 1, novelFilter.getSize(), Sort.by("lastUpdate").descending());
-        Page<Novel> novelPage = repository.findAll(specification, pageable);
-        return novelPage.map(NovelMinDto::new);
+        return repository.findAll(specification, pageable);
     }
 
     public boolean adminDelete(String id) throws CustomException {
@@ -230,10 +229,10 @@ public class NovelService {
         return novelDto;
     }
 
-    public Object getHot() {
+    public Page<Novel> getHot() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("view").descending());
         Page<Novel> novelPage = repository.findAll(pageable);
-        return novelPage.map(NovelMinDto::new);
+        return novelPage;
     }
 
     private Account findAccount(String username) throws CustomException {
