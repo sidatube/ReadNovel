@@ -17,6 +17,7 @@ public class ChapterDto {
     private String content;
     private String volumeId;
     private String numberTitle;
+    private double number;
     private boolean isLock =false;
     private String slug;
     private int view;
@@ -27,6 +28,7 @@ public class ChapterDto {
         id = chapter.getId();
         title= chapter.getTitle();
         content=chapter.getContent();
+        number=chapter.getNumber();
         numberTitle =chapter.getNumberTitle();
         volumeId = chapter.getVolume().getId();
         isLock = chapter.isLock();

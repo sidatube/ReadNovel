@@ -24,6 +24,7 @@ public class VolumeDto {
         id = volume.getId();
         title = volume.getTitle();
         thumbnail = volume.getThumbnail();
+        number = volume.getNumber();
         if (volume.getNovel() != null)
             novelId = volume.getNovel().getId();
         if (volume.getChapters() != null)

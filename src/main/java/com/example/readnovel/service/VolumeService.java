@@ -24,7 +24,7 @@ public class VolumeService {
             throw new NullPointerException();
         }
         Novel novel = findNovel(dto.getNovelId());
-        Volume volume = Volume.builder().title(dto.getTitle()).thumbnail(dto.getThumbnail()).novel(novel).build();
+        Volume volume = Volume.builder().title(dto.getTitle()).number(dto.getNumber()).thumbnail(dto.getThumbnail()).novel(novel).build();
         return new VolumeDto(repository.save(volume));
     }
 

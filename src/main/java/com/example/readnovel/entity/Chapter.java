@@ -22,7 +22,7 @@ public class Chapter extends BaseEntity {
     private String id;
     private String title;
     private String numberTitle;
-    private float number;
+    private double number;
     @Column(columnDefinition = "TEXT")
     private String content;
     @ManyToOne()

@@ -57,6 +57,7 @@ public class ChapterService {
         Chapter chapter = Chapter.builder()
                 .title(chapterDto.getTitle())
                 .content(chapterDto.getContent())
+                .number(chapterDto.getNumber())
                 .isLock(chapterDto.isLock())
                 .volume(optionalVolume.get())
                 .build();
@@ -78,6 +79,7 @@ public class ChapterService {
         }
         Chapter old = optionalChapter.get();
         old.setTitle(chapterDto.getTitle());
+        old.setNumber(chapterDto.getNumber());
         old.setContent(chapterDto.getContent());
         old.setLock(chapterDto.isLock());
         old.setVolume(optionalVolume.get());
