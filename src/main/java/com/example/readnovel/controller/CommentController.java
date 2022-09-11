@@ -21,7 +21,7 @@ public class CommentController {
         return ResponseEntity.ok().body(service.getList(commentFilter));
     }
     @PostMapping("getAll")
-    public ResponseEntity<Object> getListCMT(@RequestBody CommentFilter commentFilter) throws CustomException {
+    public ResponseEntity<Object> getListCMTNoParent(@RequestBody CommentFilter commentFilter) throws CustomException {
         return ResponseEntity.ok().body(service.getListByAreaId(commentFilter));
     }
 

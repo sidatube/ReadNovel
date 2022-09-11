@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class CommentDto {
     private String id;
     private String parentId;
-    private List<String> childIds;
+    private List<CommentDto> childIds;
     private String content;
     private String userName;
     private boolean isDeleted;
@@ -30,7 +30,7 @@ public class CommentDto {
         if (comment.getParent() != null)
             parentId = comment.getParent().getId();
         if (comment.getChild() != null)
-            childIds = comment.getChild().stream().map(Comment::getId).collect(Collectors.toList());
+            childIds = comment.getChild().stream().map(CommentDto::new).collect(Collectors.toList());
         content = comment.getContent();
         updatedAt = comment.getUpdatedAt();
         if (comment.getAccount() != null)
