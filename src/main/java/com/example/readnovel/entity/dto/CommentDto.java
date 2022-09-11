@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class CommentDto {
     private String id;
     private String parentId;
+    private String grandpaId;
     private List<CommentDto> childIds;
     private String content;
     private String userName;
@@ -29,6 +30,8 @@ public class CommentDto {
         id = comment.getId();
         if (comment.getParent() != null)
             parentId = comment.getParent().getId();
+        if (comment.getGrandpa() != null)
+            grandpaId = comment.getGrandpa().getId();
         if (comment.getChild() != null)
             childIds = comment.getChild().stream().map(CommentDto::new).collect(Collectors.toList());
         content = comment.getContent();

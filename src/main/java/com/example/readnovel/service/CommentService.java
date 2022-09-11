@@ -76,6 +76,11 @@ public class CommentService {
         if (!(dto.getParentId() == null || dto.getParentId().isEmpty())) {
             Comment parent = findById(dto.getParentId());
             cmt.setParent(parent);
+            if (parent.getGrandpa()!=null){
+                cmt.setGrandpa(parent.getGrandpa());
+            }else {
+                cmt.setGrandpa(parent);
+            }
         }
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!cmt.getAccount().getUsername().equalsIgnoreCase(username)) {

@@ -22,7 +22,10 @@ public class Comment extends BaseEntity {
     private String id;
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     private Comment parent;
-    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH}, mappedBy = "parent")
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
+    private Comment grandpa;
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH}, mappedBy = "grandpa")
+    @OrderBy("createdAt")
     private List<Comment> child;
     @Column(columnDefinition = "TEXT")
     private String content;
