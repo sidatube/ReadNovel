@@ -29,14 +29,14 @@ public class CommentSpecification extends GenericSpecification<Comment> {
                         return criteriaBuilder.or(
                                 criteriaBuilder.notEqual(criteriaBuilder.lower(post.get("id")), getSearchCriteria().getValue()));
                     }
-                    return criteriaBuilder.or(
-                            criteriaBuilder.equal(criteriaBuilder.lower(post.get("id")), getSearchCriteria().getValue()));
+                    return
+                            criteriaBuilder.equal(criteriaBuilder.lower(post.get("id")), getSearchCriteria().getValue());
 
                 case "novel":
                     Join<Comment, Novel> novel = root.join("novel");
                     if (getSearchCriteria().getValue() == null || getSearchCriteria().getValue().toString().isEmpty()) {
-                        return criteriaBuilder.or(
-                                criteriaBuilder.notEqual(criteriaBuilder.lower(novel.get("id")), getSearchCriteria().getValue()));
+                        return
+                                criteriaBuilder.notEqual(criteriaBuilder.lower(novel.get("id")), getSearchCriteria().getValue());
                     }
                     return criteriaBuilder.or(
                             criteriaBuilder.equal(criteriaBuilder.lower(novel.get("id")), getSearchCriteria().getValue()));
@@ -46,8 +46,8 @@ public class CommentSpecification extends GenericSpecification<Comment> {
                         return criteriaBuilder.or(
                                 criteriaBuilder.notEqual(criteriaBuilder.lower(chapter.get("id")), getSearchCriteria().getValue()));
                     }
-                    return criteriaBuilder.or(
-                            criteriaBuilder.equal(criteriaBuilder.lower(chapter.get("id")), getSearchCriteria().getValue()));
+                    return
+                            criteriaBuilder.equal(criteriaBuilder.lower(chapter.get("id")), getSearchCriteria().getValue());
                 default:
                     break;
             }
