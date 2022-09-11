@@ -1,6 +1,7 @@
 package com.example.readnovel.entity.dto;
 
 import com.example.readnovel.entity.Chapter;
+import com.example.readnovel.util.ConvertFriendlyTime;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -18,22 +19,26 @@ public class ChapterDto {
     private String volumeId;
     private String numberTitle;
     private double number;
-    private boolean isLock =false;
+    private boolean isLock = false;
     private String slug;
     private int view;
+    private String friendlyTime;
+
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
     public ChapterDto(Chapter chapter) {
         id = chapter.getId();
-        title= chapter.getTitle();
-        content=chapter.getContent();
-        number=chapter.getNumber();
-        numberTitle =chapter.getNumberTitle();
+        title = chapter.getTitle();
+        content = chapter.getContent();
+        number = chapter.getNumber();
+        numberTitle = chapter.getNumberTitle();
         volumeId = chapter.getVolume().getId();
         isLock = chapter.isLock();
-        view=chapter.getView();
+        view = chapter.getView();
         createdAt = chapter.getCreatedAt();
         updatedAt = chapter.getUpdatedAt();
+        friendlyTime = ConvertFriendlyTime.getFriendlyTime(updatedAt);
+
     }
 }

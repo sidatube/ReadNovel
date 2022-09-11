@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class CommentDto {
     private String id;
     private String parentId;
+    private String parentName;
     private String grandpaId;
     private List<CommentDto> childIds;
     private String content;
@@ -31,6 +32,7 @@ public class CommentDto {
         id = comment.getId();
         if (comment.getParent() != null)
             parentId = comment.getParent().getId();
+            parentName = comment.getParent().getAccount().getUsername();
         if (comment.getGrandpa() != null)
             grandpaId = comment.getGrandpa().getId();
         if (comment.getChild() != null)
@@ -39,7 +41,7 @@ public class CommentDto {
         updatedAt = comment.getUpdatedAt();
         if (comment.getAccount() != null)
             userName = comment.getAccount().getUsername();
-            avatar = comment.getAccount().getAvatar();
+        avatar = comment.getAccount().getAvatar();
         isDeleted = comment.isDeleted();
         if (comment.getNovel() != null) {
             areaEnum = AreaEnum.NOVEL;

@@ -1,8 +1,10 @@
 package com.example.readnovel.entity.dto;
 
 import com.example.readnovel.entity.Novel;
+import com.example.readnovel.util.ConvertFriendlyTime;
 import lombok.*;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Getter
@@ -18,6 +20,7 @@ public class NovelMinDto {
     private String lastChapTitle;
     private String volumeName;
     private Timestamp lastUpdate;
+    private String friendlyTime;
 
     public NovelMinDto(Novel novel) {
         lastChapTitle = "Chương 0: Mở đầu";
@@ -31,6 +34,6 @@ public class NovelMinDto {
         novelAvatar = novel.getAvatar();
         novelName = novel.getName();
         lastUpdate = novel.getLastUpdate();
-
+        friendlyTime = ConvertFriendlyTime.getFriendlyTime(lastUpdate);
     }
 }

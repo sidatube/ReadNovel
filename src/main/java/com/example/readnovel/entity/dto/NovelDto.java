@@ -4,6 +4,7 @@ import com.example.readnovel.constant.TranslationStatus;
 import com.example.readnovel.constant.TypeOfStory;
 import com.example.readnovel.entity.Novel;
 import com.example.readnovel.entity.Type;
+import com.example.readnovel.util.ConvertFriendlyTime;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -36,7 +37,8 @@ public class NovelDto {
     private ChapterMinDto lastChapter;
     private Timestamp lastUpdate;
     private boolean isFollow =false;
-    private List<String> types;
+    private List<String> types;    private String friendlyTime;
+
 
     public NovelDto(Novel novel) {
         id = novel.getId();
@@ -68,5 +70,7 @@ public class NovelDto {
         if (novel.getAccounts()!=null){
             countFollow= novel.getAccounts().size();
         }
+        friendlyTime = ConvertFriendlyTime.getFriendlyTime(lastUpdate);
+
     }
 }
