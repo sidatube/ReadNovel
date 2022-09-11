@@ -25,20 +25,29 @@ public class CommentSpecification extends GenericSpecification<Comment> {
                             criteriaBuilder.like(criteriaBuilder.lower(commentAccountJoin.get("username")), "%" + getSearchCriteria().getValue() + "%"));
                 case "post":
                     Join<Comment, Post> post = root.join("post");
-
+                    if (getSearchCriteria().getValue() == null || getSearchCriteria().getValue().toString().isEmpty()) {
+                        return criteriaBuilder.or(
+                                criteriaBuilder.notEqual(criteriaBuilder.lower(post.get("id")), getSearchCriteria().getValue()));
+                    }
                     return criteriaBuilder.or(
-                            criteriaBuilder.like(criteriaBuilder.lower(post.get("id")), "%" + getSearchCriteria().getValue() + "%")
-                    );
+                            criteriaBuilder.equal(criteriaBuilder.lower(post.get("id")), getSearchCriteria().getValue()));
+
                 case "novel":
                     Join<Comment, Novel> novel = root.join("novel");
+                    if (getSearchCriteria().getValue() == null || getSearchCriteria().getValue().toString().isEmpty()) {
+                        return criteriaBuilder.or(
+                                criteriaBuilder.notEqual(criteriaBuilder.lower(novel.get("id")), getSearchCriteria().getValue()));
+                    }
                     return criteriaBuilder.or(
-                            criteriaBuilder.like(criteriaBuilder.lower(novel.get("id")), "%" + getSearchCriteria().getValue() + "%")
-                    );
+                            criteriaBuilder.equal(criteriaBuilder.lower(novel.get("id")), getSearchCriteria().getValue()));
                 case "chapter":
                     Join<Comment, Post> chapter = root.join("chapter");
+                    if (getSearchCriteria().getValue() == null || getSearchCriteria().getValue().toString().isEmpty()) {
+                        return criteriaBuilder.or(
+                                criteriaBuilder.notEqual(criteriaBuilder.lower(chapter.get("id")), getSearchCriteria().getValue()));
+                    }
                     return criteriaBuilder.or(
-                            criteriaBuilder.like(criteriaBuilder.lower(chapter.get("id")), "%" + getSearchCriteria().getValue() + "%")
-                    );
+                            criteriaBuilder.equal(criteriaBuilder.lower(chapter.get("id")), getSearchCriteria().getValue()));
                 default:
                     break;
             }
