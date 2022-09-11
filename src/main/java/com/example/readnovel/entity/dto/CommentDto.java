@@ -20,6 +20,7 @@ public class CommentDto {
     private List<CommentDto> childIds;
     private String content;
     private String userName;
+    private String avatar;
     private boolean isDeleted;
     private AreaEnum areaEnum;
     private String areaId;
@@ -38,6 +39,7 @@ public class CommentDto {
         updatedAt = comment.getUpdatedAt();
         if (comment.getAccount() != null)
             userName = comment.getAccount().getUsername();
+            avatar = comment.getAccount().getAvatar();
         isDeleted = comment.isDeleted();
         if (comment.getNovel() != null) {
             areaEnum = AreaEnum.NOVEL;
