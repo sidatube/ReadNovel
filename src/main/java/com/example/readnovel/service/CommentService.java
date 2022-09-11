@@ -3,14 +3,11 @@ package com.example.readnovel.service;
 import com.example.readnovel.Filter.CommentFilter;
 import com.example.readnovel.constant.SearchCriteriaOperator;
 import com.example.readnovel.criteriaFilter.CommentSpecification;
-import com.example.readnovel.criteriaFilter.NovelSpecification;
 import com.example.readnovel.criteriaFilter.SearchCriteria;
 import com.example.readnovel.customException.CustomException;
 import com.example.readnovel.entity.*;
 import com.example.readnovel.entity.dto.CommentDto;
-import com.example.readnovel.entity.dto.NovelDto;
 import com.example.readnovel.repository.*;
-import com.example.readnovel.util.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +16,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -77,7 +73,7 @@ public class CommentService {
     }
 
     private void setValue(Comment cmt, CommentDto dto) throws CustomException {
-        if (!(dto.getParentId()==null||dto.getParentId().isEmpty())) {
+        if (!(dto.getParentId() == null || dto.getParentId().isEmpty())) {
             Comment parent = findById(dto.getParentId());
             cmt.setParent(parent);
         }
@@ -85,10 +81,10 @@ public class CommentService {
         if (!cmt.getAccount().getUsername().equalsIgnoreCase(username)) {
             throw new CustomException("User is not writer!");
         }
-        if (dto.getContent()==null||dto.getContent().isEmpty()){
+        if (dto.getContent() == null || dto.getContent().isEmpty()) {
             throw new CustomException("Content is empty!");
         }
-        if (cmt.isDeleted()){
+        if (cmt.isDeleted()) {
             throw new CustomException("Comment was deleted!");
         }
         cmt.setContent(dto.getContent());
@@ -108,7 +104,7 @@ public class CommentService {
                 cmt.setNovel(novelOptional.get());
                 break;
 
-            case CHAPTER:
+            case CHAP:
                 Optional<Chapter> chapterOptional = chapterRepository.findById(dto.getAreaId());
                 if (!chapterOptional.isPresent()) {
                     throw new CustomException("Chapter is not exist!");
@@ -129,7 +125,7 @@ public class CommentService {
             CommentSpecification nameFilter = new CommentSpecification(new SearchCriteria("content", SearchCriteriaOperator.Like, commentFilter.getContent()));
             specification = specification.and(nameFilter);
         }
-        if (commentFilter.getAreaId()==null){
+        if (commentFilter.getAreaId() == null) {
             commentFilter.setAreaId("");
         }
         switch (commentFilter.getAreaEnum()) {
@@ -137,7 +133,7 @@ public class CommentService {
                 CommentSpecification postFilter = new CommentSpecification(new SearchCriteria("post", SearchCriteriaOperator.Join, commentFilter.getAreaId()));
                 specification = specification.and(postFilter);
                 break;
-            case CHAPTER:
+            case CHAP:
                 CommentSpecification chapter = new CommentSpecification(new SearchCriteria("chapter", SearchCriteriaOperator.Join, commentFilter.getAreaId()));
                 specification = specification.and(chapter);
                 break;
@@ -152,6 +148,22 @@ public class CommentService {
 
         Pageable pageable = PageRequest.of(commentFilter.getIndex() - 1, commentFilter.getSize());
         Page<Comment> comments = repository.findAll(specification, pageable);
+        return comments.map(CommentDto::new);
+    }
+
+    public Object getListByAreaId(CommentFilter commentFilter) throws CustomException {
+        if (commentFilter.getAreaId().isEmpty()) {
+            throw new CustomException("Id is empty");
+        }
+        Pageable pageable = PageRequest.of(commentFilter.getIndex() - 1, commentFilter.getSize());
+        Page<Comment> comments = null;
+        if (commentFilter.getAreaId().contains("CHAP")) {
+            comments = repository.findByChapterId(commentFilter.getAreaId(), pageable);
+
+        } else if (commentFilter.getAreaId().contains("NOVEL")) {
+            comments = repository.findByNovelId(commentFilter.getAreaId(), pageable);
+        }
+        assert comments != null;
         return comments.map(CommentDto::new);
     }
 }

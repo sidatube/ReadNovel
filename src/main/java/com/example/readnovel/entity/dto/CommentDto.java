@@ -45,7 +45,7 @@ public class CommentDto {
             areaId = comment.getPost().getId();
         }
         if (comment.getChapter() != null) {
-            areaEnum = AreaEnum.CHAPTER;
+            areaEnum = AreaEnum.CHAP;
             areaId = comment.getChapter().getId();
         }
         updatedBy = comment.getUpdatedBy();

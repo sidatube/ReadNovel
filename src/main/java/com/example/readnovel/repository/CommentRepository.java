@@ -1,13 +1,17 @@
 package com.example.readnovel.repository;
 
-import com.example.readnovel.entity.Author;
 import com.example.readnovel.entity.Comment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment,String>, JpaSpecificationExecutor<Comment> {
+public interface CommentRepository extends JpaRepository<Comment, String>, JpaSpecificationExecutor<Comment> {
+    Page<Comment> findByNovelId(String novelId, Pageable pageable);
+
+    Page<Comment> findByChapterId(String chapId, Pageable pageable);
 }

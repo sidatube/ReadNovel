@@ -1,5 +1,5 @@
 package com.example.readnovel.constant;
 
 public enum AreaEnum {
-    POST,NOVEL,CHAPTER,ALL
+    POST,NOVEL, CHAP,ALL
 }
