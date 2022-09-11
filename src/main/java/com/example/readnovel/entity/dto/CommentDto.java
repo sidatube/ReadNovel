@@ -30,9 +30,10 @@ public class CommentDto {
 
     public CommentDto(Comment comment) {
         id = comment.getId();
-        if (comment.getParent() != null)
+        if (comment.getParent() != null) {
             parentId = comment.getParent().getId();
             parentName = comment.getParent().getAccount().getUsername();
+        }
         if (comment.getGrandpa() != null)
             grandpaId = comment.getGrandpa().getId();
         if (comment.getChild() != null)

@@ -13,9 +13,5 @@ public class ConvertFriendlyTime {
         return p.format(date).replace("cách đây ","")+" trước";
     }
 
-    public static void main(String[] args) {
-        PrettyTime p = new PrettyTime(new Locale("Vi"));
 
-        System.out.println(  p.format(LocalDateTime.now().minusSeconds(100000000)).replace("cách đây ","")+" trước");
-    }
 }
