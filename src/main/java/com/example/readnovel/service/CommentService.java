@@ -136,17 +136,14 @@ public class CommentService {
             case POST:
                 CommentSpecification postFilter = new CommentSpecification(new SearchCriteria("post", SearchCriteriaOperator.Join, commentFilter.getAreaId()));
                 specification = specification.and(postFilter);
-
                 break;
             case CHAPTER:
                 CommentSpecification chapter = new CommentSpecification(new SearchCriteria("chapter", SearchCriteriaOperator.Join, commentFilter.getAreaId()));
                 specification = specification.and(chapter);
-
                 break;
             case NOVEL:
                 CommentSpecification novel = new CommentSpecification(new SearchCriteria("novel", SearchCriteriaOperator.Join, commentFilter.getAreaId()));
                 specification = specification.and(novel);
-
                 break;
             default:
                 break;

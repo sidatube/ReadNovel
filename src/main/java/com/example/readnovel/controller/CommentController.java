@@ -20,6 +20,10 @@ public class CommentController {
     public ResponseEntity<Object> getList(@RequestBody CommentFilter commentFilter) {
         return ResponseEntity.ok().body(service.getList(commentFilter));
     }
+    @PostMapping("getAll")
+    public ResponseEntity<Object> getListCMT(@RequestBody CommentFilter commentFilter) {
+        return ResponseEntity.ok().body(service.getList(commentFilter));
+    }
 
     @GetMapping("detail")
     @PreAuthorize("hasAnyAuthority('admin','mod','user')")
