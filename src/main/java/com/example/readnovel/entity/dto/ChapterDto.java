@@ -17,13 +17,13 @@ public class ChapterDto {
     private String title;
     private String content;
     private String volumeId;
+    private String volumeTitle;
     private String numberTitle;
     private double number;
     private boolean isLock = false;
     private String slug;
     private int view;
     private String friendlyTime;
-
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
@@ -34,6 +34,7 @@ public class ChapterDto {
         number = chapter.getNumber();
         numberTitle = chapter.getNumberTitle();
         volumeId = chapter.getVolume().getId();
+        volumeTitle = chapter.getVolume().getTitle();
         isLock = chapter.isLock();
         view = chapter.getView();
         createdAt = chapter.getCreatedAt();
