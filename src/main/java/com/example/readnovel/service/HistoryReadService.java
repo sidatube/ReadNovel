@@ -35,6 +35,7 @@ public class HistoryReadService {
         Optional<HistoryRead> optional = repository.findByUsername(username);
         if (!optional.isPresent()){
             HistoryRead historyRead = repository.save(HistoryRead.builder().account(account).historyItems(new ArrayList<>()).build());
+
             return historyRead.getHistoryItems().stream().map(HistoryItemDto::new).collect(Collectors.toList());
         }
         return optional.get().getHistoryItems().stream().map(HistoryItemDto::new).collect(Collectors.toList());

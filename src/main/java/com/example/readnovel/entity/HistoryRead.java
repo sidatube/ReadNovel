@@ -4,6 +4,7 @@ import com.example.readnovel.entity.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -28,14 +29,16 @@ public class HistoryRead extends BaseEntity {
     @JoinColumn(name = "accountId")
     @JsonBackReference
     private Account account;
-    @OneToMany(mappedBy = "historyRead", cascade = {CascadeType.MERGE, CascadeType.DETACH,CascadeType.REMOVE})
+    @OneToMany(mappedBy = "historyRead", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
     @OrderBy("updatedAt")
     @JsonManagedReference
+    @BatchSize(size = 30)
     private List<HistoryItem> historyItems;
 
     public void addToHistory(HistoryItem historyItem) {
         historyItems.add(historyItem);
     }
+
     public HistoryItem getHistoryItem(Novel novel) {
         HistoryItem item = HistoryItem.builder().novel(novel).historyRead(this).build();
         if (historyItems.contains(item)) {
