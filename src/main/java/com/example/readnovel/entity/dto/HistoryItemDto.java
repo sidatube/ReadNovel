@@ -1,7 +1,10 @@
 package com.example.readnovel.entity.dto;
 
 import com.example.readnovel.entity.HistoryItem;
+import com.example.readnovel.util.ConvertFriendlyTime;
 import lombok.*;
+
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -15,7 +18,8 @@ public class HistoryItemDto {
     private String lastChapId;
     private String lastChapTitle;
     private String volumeName;
-
+    private Timestamp lastUpdate;
+    private String friendlyTime;
     public HistoryItemDto(HistoryItem historyItem) {
         if (historyItem.getLastChap()!=null){
             lastChapTitle = historyItem.getLastChap().getTitle();
@@ -28,6 +32,8 @@ public class HistoryItemDto {
             novelName = historyItem.getNovel().getName();
 
         }
+        lastUpdate=historyItem.getUpdatedAt();
+        friendlyTime= ConvertFriendlyTime.getFriendlyTime(lastUpdate);
     }
 }
 

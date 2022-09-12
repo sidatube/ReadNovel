@@ -13,18 +13,20 @@ import org.springframework.web.bind.annotation.*;
 public class HistoryController {
     @Autowired
     private HistoryReadService service;
+
     @GetMapping
     public ResponseEntity<Object> getHistory() throws CustomException {
         return ResponseEntity.ok().body(service.getHistory());
     }
+
     @DeleteMapping("remove")
     public ResponseEntity<Object> deleteHistory(@RequestParam(defaultValue = "") String itemId) throws CustomException {
-        service.removeItem(itemId);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok().body(service.removeItem(itemId));
     }
+
     @DeleteMapping("removeAll")
     public ResponseEntity<Object> deleteAll() throws CustomException {
-        service.removeAll();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(service.removeAll());
     }
 }

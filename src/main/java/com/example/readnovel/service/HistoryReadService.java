@@ -41,11 +41,12 @@ public class HistoryReadService {
         return optional.get().getHistoryItems().stream().map(HistoryItemDto::new).collect(Collectors.toList());
     }
 
-    public void removeItem(String itemId) {
+    public boolean removeItem(String itemId) {
        itemRepository.deleteById(itemId);
+       return true;
     }
 
-    public void removeAll() throws CustomException {
+    public boolean removeAll() throws CustomException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<HistoryRead> optional = repository.findByUsername(username);
         if (!optional.isPresent()) {
@@ -53,5 +54,7 @@ public class HistoryReadService {
         }
         HistoryRead historyRead = optional.get();
         itemRepository.deleteAll(historyRead.getHistoryItems());
+        return true;
+
     }
 }
