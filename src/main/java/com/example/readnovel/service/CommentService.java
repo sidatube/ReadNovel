@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -151,7 +152,7 @@ public class CommentService {
 
         }
 
-        Pageable pageable = PageRequest.of(commentFilter.getIndex() - 1, commentFilter.getSize());
+        Pageable pageable = PageRequest.of(commentFilter.getIndex() - 1, commentFilter.getSize(), Sort.by("createdAt").descending());
         Page<Comment> comments = repository.findAll(specification, pageable);
         return comments.map(CommentDto::new);
     }
@@ -160,7 +161,7 @@ public class CommentService {
         if (commentFilter.getAreaId().isEmpty()) {
             throw new CustomException("Id is empty");
         }
-        Pageable pageable = PageRequest.of(commentFilter.getIndex() - 1, commentFilter.getSize());
+        Pageable pageable = PageRequest.of(commentFilter.getIndex() - 1, commentFilter.getSize(), Sort.by("createdAt").descending());
         Page<Comment> comments = null;
         if (commentFilter.getAreaId().contains("CHAP")) {
             comments = repository.findByChapterId(commentFilter.getAreaId(), pageable);
