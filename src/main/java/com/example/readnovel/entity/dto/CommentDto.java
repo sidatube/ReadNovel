@@ -44,6 +44,9 @@ public class CommentDto {
             userName = comment.getAccount().getUsername();
         avatar = comment.getAccount().getAvatar();
         isDeleted = comment.isDeleted();
+        if (comment.isDeleted()){
+            content= "Đã bị xóa bởi"+ comment.getUpdatedBy();
+        }
         if (comment.getNovel() != null) {
             areaEnum = AreaEnum.NOVEL;
             areaId = comment.getNovel().getId();
