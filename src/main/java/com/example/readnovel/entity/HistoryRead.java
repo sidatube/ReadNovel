@@ -30,7 +30,7 @@ public class HistoryRead extends BaseEntity {
     @JsonBackReference
     private Account account;
     @OneToMany(mappedBy = "historyRead", cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE})
-    @OrderBy("updatedAt")
+    @OrderBy("updatedAt DESC")
     @JsonManagedReference
     @BatchSize(size = 30)
     private List<HistoryItem> historyItems;
