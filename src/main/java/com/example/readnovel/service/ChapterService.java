@@ -59,6 +59,7 @@ public class ChapterService {
                 .number(chapterDto.getNumber())
                 .numberTitle(chapterDto.getNumberTitle())
                 .isLock(chapterDto.isLock())
+                .lastUpdate(new Timestamp(System.currentTimeMillis()))
                 .volume(optionalVolume.get())
                 .build();
         if (chapter.getTitle().isEmpty() || chapter.getContent().isEmpty() || chapter.getVolume() == null) {
@@ -84,6 +85,7 @@ public class ChapterService {
         old.setNumberTitle(chapterDto.getNumberTitle());
         old.setContent(chapterDto.getContent());
         old.setLock(chapterDto.isLock());
+        old.setLastUpdate(new Timestamp(System.currentTimeMillis()));
         old.setVolume(optionalVolume.get());
         return new ChapterDto(repository.save(old));
     }

@@ -38,7 +38,7 @@ public class ChapterDto {
         isLock = chapter.isLock();
         view = chapter.getView();
         createdAt = chapter.getCreatedAt();
-        updatedAt = chapter.getUpdatedAt();
+        updatedAt = chapter.getLastUpdate();
         friendlyTime = ConvertFriendlyTime.getFriendlyTime(updatedAt);
 
     }

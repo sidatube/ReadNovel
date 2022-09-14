@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Getter
@@ -33,6 +34,7 @@ public class Chapter extends BaseEntity {
     private int view;
     private boolean isLock = false;
     private String slug;
+    private Timestamp lastUpdate;
 
     public String getSlug() {
         return StringHelper.toSlug(title, id);
