@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Builder
 public class HistoryItemDto {
+    private String id;
     private String novelId;
     private String novelName;
     private String novelAvatar;
@@ -21,8 +22,9 @@ public class HistoryItemDto {
     private Timestamp lastUpdate;
     private String friendlyTime;
     public HistoryItemDto(HistoryItem historyItem) {
+        id = historyItem.getId();
         if (historyItem.getLastChap()!=null){
-            lastChapTitle = historyItem.getLastChap().getTitle();
+            lastChapTitle =historyItem.getLastChap().getNumberTitle()+" "+ historyItem.getLastChap().getTitle();
             lastChapId=historyItem.getLastChap().getId();
             volumeName=historyItem.getLastChap().getVolume().getTitle();
         }
