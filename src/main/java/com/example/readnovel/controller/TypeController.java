@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/type")
-@PreAuthorize("hasAnyAuthority('admin','mod')")
 public class TypeController {
     @Autowired
     private TypeService service;
@@ -23,6 +22,8 @@ public class TypeController {
     }
 
     @PostMapping("create")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
+
     public ResponseEntity<Object> addType(@RequestBody TypeDto type) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.addType(type));
     }
@@ -33,11 +34,13 @@ public class TypeController {
     }
 
     @PutMapping("update")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> update(@RequestBody TypeDto update) throws CustomException {
         return ResponseEntity.ok().body(service.update(update));
     }
 
     @DeleteMapping("delete")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> delete(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.ok().body(service.delete(id));
     }

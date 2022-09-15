@@ -18,6 +18,7 @@ public class NovelMinDto {
     private String novelAvatar;
     private String lastChapId;
     private String lastChapTitle;
+    private boolean isFollow;
     private String volumeName;
     private Timestamp lastUpdate;
     private String friendlyTime;
@@ -30,6 +31,7 @@ public class NovelMinDto {
             lastChapId = novel.getLastChapter().getId();
             volumeName = novel.getLastChapter().getVolume().getTitle();
         }
+//        isFollow=novel.
         novelId = novel.getId();
         novelAvatar = novel.getAvatar();
         novelName = novel.getName();

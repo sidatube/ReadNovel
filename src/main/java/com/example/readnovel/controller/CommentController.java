@@ -17,6 +17,7 @@ public class CommentController {
     private CommentService service;
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> getList(@RequestBody CommentFilter commentFilter) {
         return ResponseEntity.ok().body(service.getList(commentFilter));
     }

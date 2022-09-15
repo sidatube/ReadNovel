@@ -33,7 +33,7 @@ public class TypeService {
             TypeSpecification nameFilter = new TypeSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, name));
             specification = specification.and(nameFilter);
         }
-        return  repository.findAll(specification);
+        return  repository.findAll(specification).stream().map(TypeDto::new);
     }
 
     public Type findById(String id) throws CustomException {

@@ -48,6 +48,7 @@ public class NovelController {
     }
 
     @PostMapping("create")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> save(@RequestBody NovelDto novelDto) throws CustomException {
         return ResponseEntity.ok().body(service.save(novelDto));
     }
@@ -70,11 +71,13 @@ public class NovelController {
     }
 
     @PutMapping("update")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> update(@RequestBody NovelDto novelDto) throws CustomException {
         return ResponseEntity.ok().body(service.update(novelDto));
     }
 
     @DeleteMapping("delete")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> delete(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.ok().body(service.delete(id));
     }
@@ -87,11 +90,13 @@ public class NovelController {
 
     //Volume
     @PostMapping("volume")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> addVol(@RequestBody VolumeDto volumeDto) throws CustomException {
         return ResponseEntity.status(HttpStatus.CREATED).body(volumeService.save(volumeDto));
     }
 
     @GetMapping("volumesByNovelId")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> getVolsByNovelId(@RequestParam(defaultValue = "") String novelId) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(volumeService.getVolsByNovelId(novelId));
     }
@@ -102,11 +107,13 @@ public class NovelController {
     }
 
     @PutMapping("volume")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> updateVol(@RequestBody VolumeDto volumeDto) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(volumeService.update(volumeDto));
     }
 
     @DeleteMapping("volume")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> delVol(@RequestParam String id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(volumeService.delete(id));
     }
@@ -118,16 +125,19 @@ public class NovelController {
     }
 
     @PostMapping("chapter")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> addChapter(@RequestBody ChapterDto chapterDto) throws CustomException {
         return ResponseEntity.status(HttpStatus.CREATED).body(chapterService.save(chapterDto));
     }
 
     @PutMapping("chapter")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> updateChapter(@RequestBody ChapterDto chapterDto) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(chapterService.update(chapterDto));
     }
 
     @DeleteMapping("chapter")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> delChapter(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(chapterService.delete(id));
     }
@@ -136,6 +146,7 @@ public class NovelController {
     public ResponseEntity<Object> getNext(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(chapterService.getNextChapter(id));
     }
+
     @GetMapping("chapter/previous")
     public ResponseEntity<Object> getPrevious(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(chapterService.getPreviousChapter(id));
