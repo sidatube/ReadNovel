@@ -44,7 +44,7 @@ public class GenericSpecification<T> implements Specification<T> {
                     return criteriaBuilder.lessThanOrEqualTo(root.get(searchCriteria.getKey()), (LocalDateTime) searchCriteria.getValue());
                 return criteriaBuilder.lessThanOrEqualTo(root.get(searchCriteria.getKey()), searchCriteria.getValue().toString());
             case Like:
-                return criteriaBuilder.like(root.get(searchCriteria.getKey()), "%" + searchCriteria.getValue().toString() + "%");
+                return criteriaBuilder.like(criteriaBuilder.lower(root.get(searchCriteria.getKey())), "%" + searchCriteria.getValue().toString() + "%");
 
             default:
                 return null;
