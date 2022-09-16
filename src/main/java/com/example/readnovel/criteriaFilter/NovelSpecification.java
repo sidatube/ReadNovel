@@ -24,11 +24,11 @@ public class NovelSpecification extends GenericSpecification<Novel> {
                             // tìm trong order bản ghi có id giống giá trị truyền vào
 //                        criteriaBuilder.like(root.get("id"), "%" + getSearchCriteria().getValue() + "%"),
                             // hoặc tìm trong bảng product bản ghi có name giống với giá trị
-                            criteriaBuilder.like(criteriaBuilder.lower(authorNovelJoin.get("name")), "%" + getSearchCriteria().getValue() + "%"));
+                            criteriaBuilder.like(criteriaBuilder.lower(authorNovelJoin.get("name")), "%" + getSearchCriteria().getValue().toString().toLowerCase() + "%"));
                 case "artist":
                     Join<Artist, Novel> artistJoin = root.join("artist");
                     return criteriaBuilder.or(
-                            criteriaBuilder.like(criteriaBuilder.lower(artistJoin.get("name")), "%" + getSearchCriteria().getValue() + "%"));
+                            criteriaBuilder.like(criteriaBuilder.lower(artistJoin.get("name")), "%" + getSearchCriteria().getValue().toString().toLowerCase() + "%"));
                 case "typeids":
                     query.distinct(true);
                     Root<Type> typeRoot = query.from(Type.class);
