@@ -32,6 +32,7 @@ public class Account extends BaseEntity {
     private String hashPass;
     private String name;
     private String avatar;
+    @Column(unique = true)
     private String email;
     private Date dateOfBirth;
     private AccountStatusEnum status;

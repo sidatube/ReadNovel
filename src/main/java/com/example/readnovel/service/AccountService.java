@@ -76,15 +76,12 @@ public class AccountService {
     }
 
     public boolean forgotPassword(ForgotPassword forgotPassword) {
-        Account account = accountRepository.findByUsername(forgotPassword.getUsername()).orElse(null);
-        return account != null && forgotPassword.getEmail().equals(account.getEmail());
+        Account account = accountRepository.findByEmail(forgotPassword.getEmail()).orElse(null);
+        return account != null;
     }
     public Object setNewPass(ChangePassword changePassword) throws CustomException {
-        Account account = accountRepository.findByUsername(changePassword.getUsername()).orElse(null);
+        Account account = accountRepository.findByEmail(changePassword.getEmail()).orElse(null);
 
-        if (account==null||!account.getEmail().equals(changePassword.getEmail())){
-            StringHelper.customException("Information has error");
-        }
         if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())){
             StringHelper.customException("Password and repeat password are not same!");
         }

@@ -77,9 +77,13 @@ public class AuthenticationService implements UserDetailsService {
         if (byUsername.isPresent()) {
             throw new DataIntegrityViolationException("username had exits");
         }
+        Optional<Account> byEmail = accountRepository.findByEmail(registerDTO.getEmail());
+        if (byEmail.isPresent()) {
+            throw new DataIntegrityViolationException("Email had exits");
+        }
         Account account = new Account();
-
         account.setUsername(registerDTO.getUsername());
+        account.setName(registerDTO.getUsername());
         account.setHashPass(passwordEncoder.encode(registerDTO.getPassword()));
         account.setStatus(AccountStatusEnum.ACTIVE);
         account.setEmail(registerDTO.getEmail());

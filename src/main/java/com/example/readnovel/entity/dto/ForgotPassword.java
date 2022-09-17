@@ -11,6 +11,4 @@ import lombok.*;
 public class ForgotPassword {
     private String username;
     private String email;
-
-
 }

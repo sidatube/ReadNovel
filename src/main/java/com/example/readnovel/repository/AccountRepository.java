@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account,String> {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     Optional<Account> findByUsername(String username);
-
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    Optional<Account> findByEmail(String email);
 }
 
