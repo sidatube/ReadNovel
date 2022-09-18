@@ -21,13 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
     @Autowired
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
@@ -39,26 +40,29 @@ public class AccountService {
 
     public Page<Object> getList(int index, int size) {
         Pageable sort = getPageable(index, size);
-        Page<Account> page =accountRepository.findAll(sort);
+        Page<Account> page = accountRepository.findAll(sort);
         return page.map(AccountDTO::new);
     }
-    public Account findById( String id){
+
+    public Account findById(String id) {
         return accountRepository.findById(id).orElse(null);
     }
-    public void AddToFollowList(String username,String novelId){
+
+    public void AddToFollowList(String username, String novelId) {
         Account account = accountRepository.findByUsername(username).orElse(null);
         Novel novel = novelRepository.findById(novelId).orElse(null);
-        if (account==null||novel==null){
+        if (account == null || novel == null) {
             throw new NullPointerException();
         }
         account.follow(novel);
         accountRepository.save(account);
 
     }
-    public Object update(Account newItem){
+
+    public Object update(Account newItem) {
         Account old = findById(newItem.getId());
-        if (old==null)
-            throw  new NullPointerException();
+        if (old == null)
+            throw new NullPointerException();
         old.setRoles(newItem.getRoles());
         old.setStatus(newItem.getStatus());
         old.setAvatar(newItem.getAvatar());
@@ -67,9 +71,10 @@ public class AccountService {
         old.setEmail(newItem.getEmail());
         return new AccountDTO(accountRepository.save(old));
     }
+
     private Pageable getPageable(int pageIndex, int pageSize) {
         try {
-            return PageRequest.of(pageIndex-1, pageSize);
+            return PageRequest.of(pageIndex - 1, pageSize);
         } catch (Exception e) {
             return null;
         }
@@ -79,10 +84,11 @@ public class AccountService {
         Account account = accountRepository.findByEmail(forgotPassword.getEmail()).orElse(null);
         return account != null;
     }
+
     public Object setNewPass(ChangePassword changePassword) throws CustomException {
         Account account = accountRepository.findByEmail(changePassword.getEmail()).orElse(null);
 
-        if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())){
+        if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())) {
             StringHelper.customException("Password and repeat password are not same!");
         }
         account.setHashPass(passwordEncoder.encode(changePassword.getPassword()));
@@ -91,20 +97,21 @@ public class AccountService {
 
 
     }
-    public Object changePassword(String username,ChangePassword changePassword) throws CustomException {
+
+    public Object changePassword(String username, ChangePassword changePassword) throws CustomException {
         Account account = accountRepository.findByUsername(username).orElse(null);
-        if (account==null){
-           StringHelper.customException("Not Found Account");
+        if (account == null) {
+            StringHelper.customException("Not Found Account");
         }
         String oldPass = changePassword.getOldPassword();
-        if(!passwordEncoder.matches(oldPass,account.getHashPass())){
+        if (!passwordEncoder.matches(oldPass, account.getHashPass())) {
             StringHelper.customException("Old password has Error!");
         }
-        if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())){
+        if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())) {
             StringHelper.customException("Password and repeat password are not same!");
         }
         account.setHashPass(passwordEncoder.encode(changePassword.getPassword()));
-         accountRepository.save(account);
+        accountRepository.save(account);
         return true;
 
 
@@ -112,10 +119,10 @@ public class AccountService {
 
     public boolean adminChangePassword(ChangePassword changePassword) throws CustomException {
         Account account = accountRepository.findByUsername(changePassword.getUsername()).orElse(null);
-        if (account==null){
+        if (account == null) {
             StringHelper.customException("Not Found Account");
         }
-        if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())){
+        if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())) {
             StringHelper.customException("Password and repeat password are not same!");
         }
         account.setHashPass(passwordEncoder.encode(changePassword.getPassword()));
@@ -125,11 +132,14 @@ public class AccountService {
 
     public Object adminChangeInfo(AccountDTO newAcc) throws CustomException {
         Account account = accountRepository.findByUsername(newAcc.getUsername()).orElse(null);
-        if (account==null){
+        if (account == null) {
             StringHelper.customException("Not Found Account");
         }
-
-        Set<Role> roles  = new HashSet<>( roleRepository.findByNameIn(newAcc.getRoles()));
+        Optional<Account> accountOptional = accountRepository.findByEmail(newAcc.getEmail());
+        if (accountOptional.isPresent()) {
+            StringHelper.customException("Email had exit!");
+        }
+        Set<Role> roles = new HashSet<>(roleRepository.findByNameIn(newAcc.getRoles()));
         account.setStatus(newAcc.getStatus());
         account.setRoles(roles);
         account.setName(newAcc.getName());
@@ -141,7 +151,7 @@ public class AccountService {
 
     public Object findByUsername(String username) throws CustomException {
         Account account = accountRepository.findByUsername(username).orElse(null);
-        if (account==null){
+        if (account == null) {
             StringHelper.customException("Not Found Account");
         }
         return new AccountDTO(account);
@@ -149,7 +159,7 @@ public class AccountService {
 
     public Object changeInfo(String username, AccountDTO accountDTO) throws CustomException {
         Account account = accountRepository.findByUsername(username).orElse(null);
-        if (account==null){
+        if (account == null) {
             StringHelper.customException("Not Found Account");
         }
         account.setEmail(accountDTO.getEmail());
