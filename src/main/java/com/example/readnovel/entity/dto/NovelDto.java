@@ -22,8 +22,8 @@ public class NovelDto {
     private String otherName;
     private String avatar;
     private String slug;
-    private String author;
-    private String artist;
+    private String author="";
+    private String artist="";
     private List<VolumeDto> volumes;
     private Boolean sensitiveContent;
     private TypeOfStory typeOfStory;
