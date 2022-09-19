@@ -30,21 +30,23 @@ public class NovelSpecification extends GenericSpecification<Novel> {
                     return criteriaBuilder.or(
                             criteriaBuilder.like(criteriaBuilder.lower(artistJoin.get("name")), "%" + getSearchCriteria().getValue().toString().toLowerCase() + "%"));
                 case "typeids":
-                    query.distinct(true);
-                    Root<Type> typeRoot = query.from(Type.class);
-                    Expression<Collection<Novel>> novelTypes = typeRoot.get("novels");
-                    return criteriaBuilder.and(
-                            criteriaBuilder.equal(typeRoot.get("name"), getSearchCriteria().getValue()),
-                            criteriaBuilder.isMember(root, novelTypes));
+                    Join<Novel,Type> novelTypeJoin = root.join("types");
+                    return criteriaBuilder.equal(novelTypeJoin.get("name"),getSearchCriteria().getValue());
+//                    query.distinct(true);
+//                    Root<Type> typeRoot = query.from(Type.class);
+//                    Expression<Collection<Novel>> novelTypes = typeRoot.get("novels");
+//                    return criteriaBuilder.and(
+//                            criteriaBuilder.equal(typeRoot.get("name"), getSearchCriteria().getValue()),
+//                            criteriaBuilder.isMember(root, novelTypes));
                 case "follows":
-//                    Join<Novel,Account> novelAccountJoin = root.join("accounts");
-//                    return criteriaBuilder.equal(novelAccountJoin.get("username"),getSearchCriteria().getValue());
-                    query.distinct(true);
-                    Root<Account> accountRoot = query.from(Account.class);
-                    Expression<Collection<Novel>> followsNovel = accountRoot.get("novels");
-                    return criteriaBuilder.and(
-                            criteriaBuilder.equal(accountRoot.get("username"), getSearchCriteria().getValue()),
-                            criteriaBuilder.isMember(root, followsNovel));
+                    Join<Novel,Account> novelAccountJoin = root.join("accounts");
+                    return criteriaBuilder.equal(novelAccountJoin.get("username"),getSearchCriteria().getValue());
+//                    query.distinct(true);
+//                    Root<Account> accountRoot = query.from(Account.class);
+//                    Expression<Collection<Novel>> followsNovel = accountRoot.get("novels");
+//                    return criteriaBuilder.and(
+//                            criteriaBuilder.equal(accountRoot.get("username"), getSearchCriteria().getValue()),
+//                            criteriaBuilder.isMember(root, followsNovel));
 
                 default:
                     break;
