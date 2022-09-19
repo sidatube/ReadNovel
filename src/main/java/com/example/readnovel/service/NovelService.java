@@ -245,7 +245,6 @@ public class NovelService {
 
     public Object getFollowList(int index, int size) throws CustomException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Account account = findAccount(username);
         Specification<Novel> specification = Specification.where(null);
         NovelSpecification followsFilter = new NovelSpecification(new SearchCriteria("follows", SearchCriteriaOperator.Join, username));
         specification = specification.and(followsFilter);

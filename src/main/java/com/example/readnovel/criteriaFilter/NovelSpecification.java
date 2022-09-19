@@ -41,7 +41,7 @@ public class NovelSpecification extends GenericSpecification<Novel> {
                     Root<Account> accountRoot = query.from(Account.class);
                     Expression<Collection<Novel>> followsNovel = accountRoot.get("novels");
                     return criteriaBuilder.and(
-                            criteriaBuilder.equal(accountRoot.get("name"), getSearchCriteria().getValue()),
+                            criteriaBuilder.equal(criteriaBuilder.lower(accountRoot.get("name")), getSearchCriteria().getValue().toString().toLowerCase()),
                             criteriaBuilder.isMember(root, followsNovel));
 
                 default:
