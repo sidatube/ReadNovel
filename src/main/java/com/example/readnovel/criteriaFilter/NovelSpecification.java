@@ -37,11 +37,13 @@ public class NovelSpecification extends GenericSpecification<Novel> {
                             criteriaBuilder.equal(typeRoot.get("name"), getSearchCriteria().getValue()),
                             criteriaBuilder.isMember(root, novelTypes));
                 case "follows":
+//                    Join<Novel,Account> novelAccountJoin = root.join("accounts");
+//                    return criteriaBuilder.equal(novelAccountJoin.get("username"),getSearchCriteria().getValue());
                     query.distinct(true);
                     Root<Account> accountRoot = query.from(Account.class);
                     Expression<Collection<Novel>> followsNovel = accountRoot.get("novels");
                     return criteriaBuilder.and(
-                            criteriaBuilder.equal(criteriaBuilder.lower(accountRoot.get("name")), getSearchCriteria().getValue().toString().toLowerCase()),
+                            criteriaBuilder.equal(accountRoot.get("username"), getSearchCriteria().getValue()),
                             criteriaBuilder.isMember(root, followsNovel));
 
                 default:

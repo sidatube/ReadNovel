@@ -243,6 +243,14 @@ public class NovelService {
 
     }
 
+//    public Object getFollowList(int index, int size) throws CustomException {
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//        Pageable pageable = PageRequest.of(index - 1, size, Sort.by("lastUpdate").descending().and(Sort.by("name")));
+//        Page<Novel> novelPage = repository.findFollowByUsername(username, pageable);
+//        return novelPage.map(NovelMinDto::new);
+//    }
+
     public Object getFollowList(int index, int size) throws CustomException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Specification<Novel> specification = Specification.where(null);

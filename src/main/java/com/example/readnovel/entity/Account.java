@@ -52,7 +52,7 @@ public class Account extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "novelId")
     )
     @JsonManagedReference
-    private Set<Novel> novels;
+    private Set<Novel> novels;//follows
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("account")
     private Set<Member> members;
