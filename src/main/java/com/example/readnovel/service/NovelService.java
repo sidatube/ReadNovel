@@ -79,6 +79,7 @@ public class NovelService {
                 .translationStatus(dto.getTranslationStatus())
                 .otherName(dto.getOtherName())
                 .translator(translator)
+                .lastUpdate(new Timestamp(System.currentTimeMillis()))
                 .translationTeam(translationTeam)
                 .build();
         if (novel.getName().isEmpty()) {
