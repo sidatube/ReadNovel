@@ -2,6 +2,7 @@ package com.example.readnovel.entity;
 
 import com.example.readnovel.entity.base.BaseEntity;
 import com.example.readnovel.util.StringHelper;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -35,6 +37,9 @@ public class Chapter extends BaseEntity {
     private boolean isLock = false;
     private String slug;
     private Timestamp lastUpdate;
+    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "chapter")
+    @JsonBackReference
+    private List<Comment> comments;
 
     public String getSlug() {
         return StringHelper.toSlug(title, id);

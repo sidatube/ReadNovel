@@ -5,6 +5,7 @@ import com.example.readnovel.constant.TypeOfStory;
 import com.example.readnovel.entity.base.BaseEntity;
 import com.example.readnovel.util.StringHelper;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -70,6 +71,9 @@ public class Novel extends BaseEntity {
     @OneToOne()
     @JoinColumn(name = "lastChapterId")
     private Chapter lastChapter;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "novel")
+    @JsonIgnore
+    private List<Comment> comments;
 
     public String getSlug() {
         return StringHelper.toSlug(name, id);
