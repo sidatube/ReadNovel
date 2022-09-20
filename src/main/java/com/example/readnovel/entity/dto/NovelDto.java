@@ -8,6 +8,7 @@ import com.example.readnovel.util.ConvertFriendlyTime;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,8 @@ public class NovelDto {
     private String otherName;
     private String avatar;
     private String slug;
-    private String author="";
-    private String artist="";
+    private String author = "";
+    private String artist = "";
     private List<VolumeDto> volumes;
     private Boolean sensitiveContent;
     private TypeOfStory typeOfStory;
@@ -36,8 +37,9 @@ public class NovelDto {
     private VolumeDto lastVol;
     private ChapterMinDto lastChapter;
     private Timestamp lastUpdate;
-    private boolean isFollow =false;
-    private List<String> types;    private String friendlyTime;
+    private boolean isFollow = false;
+    private List<String> types = new ArrayList<>();
+    private String friendlyTime;
 
 
     public NovelDto(Novel novel) {
@@ -60,15 +62,15 @@ public class NovelDto {
             volumes = novel.getVolumes().stream().map(VolumeDto::new).collect(Collectors.toList());
         }
         view = novel.getView();
-        lastUpdate=novel.getLastUpdate();
+        lastUpdate = novel.getLastUpdate();
         if (novel.getTypes() != null)
             types = novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
-        if (novel.getLastChapter()!=null){
+        if (novel.getLastChapter() != null) {
             lastChapter = new ChapterMinDto(novel.getLastChapter());
             lastVol = new VolumeDto(novel.getLastChapter().getVolume());
         }
-        if (novel.getAccounts()!=null){
-            countFollow= novel.getAccounts().size();
+        if (novel.getAccounts() != null) {
+            countFollow = novel.getAccounts().size();
         }
         friendlyTime = ConvertFriendlyTime.getFriendlyTime(lastUpdate);
 
