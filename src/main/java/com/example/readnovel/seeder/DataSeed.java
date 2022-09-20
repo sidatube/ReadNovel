@@ -710,13 +710,10 @@ public class DataSeed implements CommandLineRunner {
             chapterRepository.saveAll(chapters);
             Novel arafooLn =arafoo.getNovel();
             arafooLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-            arafooLn.setLastChapter(arafooChap1);
             Novel oregairuLn =oregairu.getNovel();
             oregairuLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-            oregairuLn.setLastChapter(oregairuChap);
             Novel imotouLn =imotou.getNovel();
             imotouLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-            imotouLn.setLastChapter(imotouChap);
             novelRepository.save(arafooLn);
             novelRepository.save(imotouLn);
             novelRepository.save(oregairuLn);

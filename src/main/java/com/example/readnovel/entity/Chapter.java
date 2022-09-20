@@ -3,6 +3,7 @@ package com.example.readnovel.entity;
 import com.example.readnovel.entity.base.BaseEntity;
 import com.example.readnovel.util.StringHelper;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -40,6 +41,10 @@ public class Chapter extends BaseEntity {
     @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "chapter")
     @JsonBackReference
     private List<Comment> comments;
+    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "lastChap",fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<HistoryItem> lastSeen;
+
 
     public String getSlug() {
         return StringHelper.toSlug(title, id);

@@ -102,7 +102,6 @@ public class ChapterService {
         }
         Novel novel = optionalNovel.get();
         novel.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-        novel.setLastChapter(saved);
         novelRepository.save(novel);
     }
 

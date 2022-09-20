@@ -57,10 +57,6 @@ public class VolumeService {
     }
 
     public Boolean delete(String id) throws CustomException {
-        Volume del = findById(id);
-        String creator = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!del.getCreatedBy().contains(creator))
-            throw new CustomException("Not the Creator");
         repository.deleteById(id);
         return true;
     }

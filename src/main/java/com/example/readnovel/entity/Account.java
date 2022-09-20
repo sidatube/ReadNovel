@@ -59,6 +59,8 @@ public class Account extends BaseEntity {
     @OneToMany(mappedBy = "account")
     @JsonIgnoreProperties("account")
     private Set<Post> posts;
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "account")
+    private HistoryRead historyRead;
 
     @OneToMany(mappedBy = "translator")
 

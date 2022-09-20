@@ -2,13 +2,17 @@ package com.example.readnovel.entity.dto;
 
 import com.example.readnovel.constant.TranslationStatus;
 import com.example.readnovel.constant.TypeOfStory;
+import com.example.readnovel.entity.Chapter;
 import com.example.readnovel.entity.Novel;
 import com.example.readnovel.entity.Type;
+import com.example.readnovel.entity.Volume;
 import com.example.readnovel.util.ConvertFriendlyTime;
 import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,10 +69,18 @@ public class NovelDto {
         lastUpdate = novel.getLastUpdate();
         if (novel.getTypes() != null)
             types = novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
-        if (novel.getLastChapter() != null) {
-            lastChapter = new ChapterMinDto(novel.getLastChapter());
-            lastVol = new VolumeDto(novel.getLastChapter().getVolume());
+        if (!novel.getVolumes().isEmpty()) {
+            List<Chapter> chapters = new ArrayList<>();
+            for (Volume volume : novel.getVolumes()
+            ) {
+                chapters.addAll(volume.getChapters());
+            }
+            Chapter last = Collections.max(chapters, Comparator.comparing(Chapter::getCreatedAt));
+
+            lastChapter = new ChapterMinDto(last);
+            lastVol = new VolumeDto(last.getVolume());
         }
+
         if (novel.getAccounts() != null) {
             countFollow = novel.getAccounts().size();
         }

@@ -68,9 +68,6 @@ public class Novel extends BaseEntity {
     @JoinColumn(name="artistId")
     @JsonManagedReference
     private Artist artist;
-    @OneToOne()
-    @JoinColumn(name = "lastChapterId")
-    private Chapter lastChapter;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "novel")
     @JsonIgnore
     private List<Comment> comments;

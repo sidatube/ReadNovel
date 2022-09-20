@@ -20,7 +20,7 @@ public class HistoryItem extends BaseEntity {
     @GenericGenerator(name = "custom-name", strategy = "com.example.readnovel.util.CustomId",
             parameters = @org.hibernate.annotations.Parameter(name = "prefix", value = "HI"))
     private String id;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToOne  (cascade = {CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "lastChapId")
     private Chapter lastChap;
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH})
