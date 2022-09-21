@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ public class AccountDTO {
     private String email;
     private Date dateOfBirth;
     private AccountStatusEnum status;
+    private Timestamp createAt;
 
     public AccountDTO(Account account) {
         if (account == null) {
@@ -40,5 +42,6 @@ public class AccountDTO {
         if (account.getRoles() != null)
             roles = account.getRoles().stream().map(Role::getName).collect(Collectors.toList());
         this.status = account.getStatus();
+        createAt=account.getCreatedAt();
     }
 }
