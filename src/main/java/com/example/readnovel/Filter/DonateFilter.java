@@ -8,7 +8,6 @@ import java.sql.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
 public class DonateFilter {
     private String username;
