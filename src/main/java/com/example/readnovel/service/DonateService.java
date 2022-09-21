@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,7 @@ public class DonateService {
             DonateSpecification username = new DonateSpecification(new SearchCriteria("username", SearchCriteriaOperator.Equals,donateFilter.getUsername()));
             specification = specification.and(username);
         }
-        Pageable pageable =PageRequest.of(donateFilter.getIndex() - 1, donateFilter.getSize());
+        Pageable pageable =PageRequest.of(donateFilter.getIndex() - 1, donateFilter.getSize(), Sort.by("createdAt").descending());
         Page<DonateHistory> page = repository.findAll(specification,pageable);
         return page.map(DonateDto::new);
     }
