@@ -41,7 +41,7 @@ public class TypeService {
         }
         Sort sort = Sort.by("name");
         if (filter.getSortBy().equals("createdAt")){
-            sort = Sort.by("createdAt");
+            sort = Sort.by("createdAt").descending();
         }
         Pageable pageable = PageRequest.of(filter.getIndex()-1, filter.getSize(), sort );
         return  repository.findAll(specification,pageable).map(TypeDto::new);
