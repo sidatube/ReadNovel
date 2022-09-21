@@ -2,6 +2,7 @@ package com.example.readnovel.controller;
 
 import com.example.readnovel.Filter.DonateFilter;
 import com.example.readnovel.customException.CustomException;
+import com.example.readnovel.entity.dto.DonateDto;
 import com.example.readnovel.service.DonateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,22 @@ public class DonateController {
 
     @PostMapping("getListAdmin")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
-    public ResponseEntity<Object> getListByAdmin(DonateFilter filter) {
+    public ResponseEntity<Object> getListByAdmin(@RequestBody DonateFilter filter) {
         return ResponseEntity.ok().body(service.getList(filter));
+    }
+    @PostMapping("create")
+    @PreAuthorize("hasAnyAuthority('admin','mod','user')")
+    public ResponseEntity<Object> create(@RequestBody DonateDto dto) {
+        return ResponseEntity.ok().body(service.create(dto));
+    }
+    @DeleteMapping("delete")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
+    public ResponseEntity<Object> delete(@RequestParam(defaultValue = "")String  id) {
+        return ResponseEntity.ok().body(service.delete(id));
     }
     @PostMapping("getHistory")
     @PreAuthorize("hasAnyAuthority('admin','mod','user')")
-    public ResponseEntity<Object> getHistory(DonateFilter filter) {
+    public ResponseEntity<Object> getHistory(@RequestBody DonateFilter filter) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         filter.setUsername(username);
         return ResponseEntity.ok().body(service.getList(filter));

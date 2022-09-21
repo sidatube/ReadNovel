@@ -66,4 +66,16 @@ public class DonateService {
         return new DonateDto(repository.save(donate));
     }
 
+    public Object create(DonateDto dto) {
+        DonateHistory  donateHistory= DonateHistory.builder()
+                .code(dto.getCode())
+                .username(SecurityContextHolder.getContext().getAuthentication().getName())
+                .amount(dto.getAmount())
+                .build();
+        return new DonateDto(repository.save(donateHistory));
+    }
+    public boolean delete(String id){
+        repository.deleteById(id);
+        return true;
+    }
 }
