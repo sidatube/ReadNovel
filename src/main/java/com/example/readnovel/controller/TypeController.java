@@ -24,7 +24,7 @@ public class TypeController {
     @PostMapping("admin")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> adminGetAll(@RequestBody TypeFilter filter) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.findAll(filter));
+        return ResponseEntity.status(HttpStatus.OK).body(service.findAll(filter));
     }
 
     @PostMapping("create")
