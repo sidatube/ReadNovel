@@ -1,7 +1,7 @@
 package com.example.readnovel.controller;
 
+import com.example.readnovel.Filter.TypeFilter;
 import com.example.readnovel.customException.CustomException;
-import com.example.readnovel.entity.Type;
 import com.example.readnovel.entity.dto.TypeDto;
 import com.example.readnovel.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,14 @@ public class TypeController {
     private TypeService service;
 
     @GetMapping
-    public ResponseEntity<Object> getAll(@RequestParam(defaultValue = "") String name) {
-        return ResponseEntity.ok(service.findAll(name));
+    public ResponseEntity<Object> getAll() {
+        return ResponseEntity.ok(service.getAll());
+    }
+
+    @PostMapping("admin")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
+    public ResponseEntity<Object> adminGetAll(@RequestBody TypeFilter filter) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.findAll(filter));
     }
 
     @PostMapping("create")

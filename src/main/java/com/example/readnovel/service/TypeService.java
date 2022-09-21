@@ -1,5 +1,6 @@
 package com.example.readnovel.service;
 
+import com.example.readnovel.Filter.TypeFilter;
 import com.example.readnovel.constant.SearchCriteriaOperator;
 import com.example.readnovel.criteriaFilter.SearchCriteria;
 import com.example.readnovel.criteriaFilter.TypeSpecification;
@@ -11,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +29,18 @@ public class TypeService {
         return repository.save(type);
     }
 
-    public Object findAll(String name) {
+    public Object getAll() {
+
+        return  repository.findAll().stream().map(TypeDto::new);
+    }
+    public Object findAll(TypeFilter filter) {
         Specification<Type> specification = Specification.where(null);
-        if (!name.isEmpty()) {
-            TypeSpecification nameFilter = new TypeSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, name));
+        if (!filter.getName().isEmpty()) {
+            TypeSpecification nameFilter = new TypeSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, filter.getName()));
             specification = specification.and(nameFilter);
         }
-        return  repository.findAll(specification).stream().map(TypeDto::new);
+        Pageable pageable = PageRequest.of(filter.getIndex(), filter.getSize(), Sort.by("name") );
+        return  repository.findAll(specification,pageable).map(TypeDto::new);
     }
 
     public Type findById(String id) throws CustomException {
@@ -58,4 +65,6 @@ public class TypeService {
         repository.delete(old);
         return true;
     }
+
+
 }
