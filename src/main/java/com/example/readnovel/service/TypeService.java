@@ -39,7 +39,7 @@ public class TypeService {
             TypeSpecification nameFilter = new TypeSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, filter.getName()));
             specification = specification.and(nameFilter);
         }
-        Pageable pageable = PageRequest.of(filter.getIndex(), filter.getSize(), Sort.by("name") );
+        Pageable pageable = PageRequest.of(filter.getIndex()-1, filter.getSize(), Sort.by("name") );
         return  repository.findAll(specification,pageable).map(TypeDto::new);
     }
 
