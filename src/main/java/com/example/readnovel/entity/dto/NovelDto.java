@@ -41,6 +41,7 @@ public class NovelDto {
     private VolumeDto lastVol;
     private ChapterMinDto lastChapter;
     private Timestamp lastUpdate;
+    private Timestamp createdAt;
     private boolean isFollow = false;
     private List<String> types = new ArrayList<>();
     private String friendlyTime;
@@ -51,6 +52,7 @@ public class NovelDto {
         name = novel.getName();
         otherName = novel.getOtherName();
         avatar = novel.getAvatar();
+        createdAt = novel.getCreatedAt();
         slug = novel.getSlug();
         if (novel.getAuthor() != null)
             author = novel.getAuthor().getName();
