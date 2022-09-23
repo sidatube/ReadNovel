@@ -71,7 +71,7 @@ public class NovelDto {
         lastUpdate = novel.getLastUpdate();
         if (novel.getTypes() != null)
             types = novel.getTypes().stream().map(Type::getName).collect(Collectors.toList());
-        if (!novel.getVolumes().isEmpty()) {
+        if (novel.getVolumes()!=null&&!novel.getVolumes().isEmpty()) {
             List<Chapter> chapters = new ArrayList<>();
             for (Volume volume : novel.getVolumes()
             ) {
