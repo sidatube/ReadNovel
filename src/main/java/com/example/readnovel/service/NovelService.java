@@ -230,6 +230,10 @@ public class NovelService {
         return novelDto;
     }
 
+    public Object getDetailAdmin(String id) throws CustomException {
+        Novel find = findIdPrivate(id);
+        return new NovelDto(find);
+    }
     public Page<Novel> getHot() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("view").descending());
         return repository.findAll(pageable);

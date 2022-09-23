@@ -69,7 +69,10 @@ public class NovelController {
     public ResponseEntity<Object> getDetail(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.ok().body(service.getDetail(id));
     }
-
+    @GetMapping("detailAdmin")
+    public ResponseEntity<Object> getDetailAdmin(@RequestParam(defaultValue = "") String id) throws CustomException {
+        return ResponseEntity.ok().body(service.getDetailAdmin(id));
+    }
     @PutMapping("update")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> update(@RequestBody NovelDto novelDto) throws CustomException {
