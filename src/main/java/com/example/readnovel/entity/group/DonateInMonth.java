@@ -1,11 +1,14 @@
 package com.example.readnovel.entity.group;
 
-import com.example.readnovel.entity.DonateHistory;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.List;
-
-public interface DonateInMonth {
-    BigDecimal getTotal();
-    int getMonth();
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class DonateInMonth {
+    private BigDecimal total;
+    private int month;
 }

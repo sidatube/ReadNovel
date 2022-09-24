@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -167,5 +168,28 @@ public class AccountService {
         account.setAvatar(accountDTO.getAvatar());
         account.setDateOfBirth(accountDTO.getDateOfBirth());
         return new AccountDTO(accountRepository.save(account));
+    }
+
+    public Boolean deleteAccount(String id) throws CustomException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Account> optionalStaff = accountRepository.findByUsername(username);
+        Optional<Account> optionalDeleted = accountRepository.findByUsername(id);
+        if (!optionalDeleted.isPresent()){
+            throw  new CustomException("Account not Exist!");
+        }
+        Account staff = optionalStaff.get();
+        Account deleted = optionalDeleted.get();
+        if (staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")){
+            accountRepository.deleteById(id);
+        }
+        else {
+            if (deleted.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")){
+                throw  new CustomException("Khonog du quyen");
+            }else
+                accountRepository.deleteById(id);
+
+        }
+        return true;
+
     }
 }

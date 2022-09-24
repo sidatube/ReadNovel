@@ -100,16 +100,14 @@ public class DonateService {
         calendar.setTime(ts);
         StatisticalItem data = new StatisticalItem();
         data.setDonateInMonth(repository.findDonateCount(calendar.get(Calendar.YEAR)));
-
-
         return data ;
     }
     public Object getListDonateInMount(DonateFilter filter){
-        Pageable pageable = PageRequest.of(filter.getIndex(), filter.getSize(),Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(filter.getIndex()-1, filter.getSize(),Sort.by("created_at").descending());
         Date ts = new java.sql.Date(System.currentTimeMillis());
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(ts);
-        return repository.findDonateInMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR),pageable);
+        return repository.findDonateListByMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR),pageable).map(DonateDto::new);
     }
 
 }

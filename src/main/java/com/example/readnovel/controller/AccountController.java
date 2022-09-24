@@ -69,4 +69,9 @@ public class AccountController {
     public ResponseEntity<Object> adminChangeInfo(@RequestBody AccountDTO accountDTO) throws CustomException {
         return ResponseEntity.ok(accountService.adminChangeInfo(accountDTO));
     }
+    @DeleteMapping("adminDelete")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
+    public ResponseEntity<Object> adminDelete(@RequestParam(defaultValue = "") String id) throws CustomException {
+        return ResponseEntity.ok(accountService.deleteAccount(id));
+    }
 }
