@@ -66,24 +66,26 @@ public class AccountService {
             }
         }
         Sort sort = Sort.by("username");
-        switch (filter.getSortBy()) {
-            case "usernameDesc":
-                sort = Sort.by("username").descending();
-                break;
-            case "name":
-                sort = Sort.by("name");
-                break;
-            case "nameDesc":
-                sort = Sort.by("name").descending();
-                break;
-            case "email":
-                sort = Sort.by("email");
-                break;
-            case "emailDesc":
-                sort = Sort.by("email").descending();
-                break;
-            default:
-                break;
+        if(filter.getSortBy()!=null){
+            switch (filter.getSortBy()) {
+                case "usernameDesc":
+                    sort = Sort.by("username").descending();
+                    break;
+                case "name":
+                    sort = Sort.by("name");
+                    break;
+                case "nameDesc":
+                    sort = Sort.by("name").descending();
+                    break;
+                case "email":
+                    sort = Sort.by("email");
+                    break;
+                case "emailDesc":
+                    sort = Sort.by("email").descending();
+                    break;
+                default:
+                    break;
+            }
         }
         Pageable pageable = PageRequest.of(filter.getIndex() - 1, filter.getSize(),sort );
         Page<Account> page = accountRepository.findAll(specification, pageable);
