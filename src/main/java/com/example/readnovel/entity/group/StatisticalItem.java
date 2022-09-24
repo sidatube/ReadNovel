@@ -13,4 +13,6 @@ public class StatisticalItem {
     private List<DonateInMonth> donateInMonth;
     private long userCount;
     private long novelCount;
+    private long chapterCount;
+
 }

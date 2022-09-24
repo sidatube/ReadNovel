@@ -10,6 +10,7 @@ import com.example.readnovel.entity.DonateHistory;
 import com.example.readnovel.entity.dto.DonateDto;
 import com.example.readnovel.entity.group.StatisticalItem;
 import com.example.readnovel.repository.AccountRepository;
+import com.example.readnovel.repository.ChapterRepository;
 import com.example.readnovel.repository.DonateRepository;
 import com.example.readnovel.repository.NovelRepository;
 import com.example.readnovel.util.StringHelper;
@@ -35,6 +36,8 @@ public class DonateService {
     AccountRepository accountRepository;
     @Autowired
     NovelRepository novelRepository;
+    @Autowired
+    ChapterRepository chapterRepository;
 
 
     private Account findByUsername(String username) throws CustomException {
@@ -101,6 +104,7 @@ public class DonateService {
         data.setDonateInMonth(repository.findDonateCount(calendar.get(Calendar.YEAR)));
         data.setNovelCount(novelRepository.count());
         data.setUserCount(accountRepository.count());
+        data.setChapterCount(chapterRepository.count());
         return data ;
     }
     public Object getListDonateInMount(DonateFilter filter){
