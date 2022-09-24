@@ -83,6 +83,12 @@ public class AccountService {
                 case "emailDesc":
                     sort = Sort.by("email").descending();
                     break;
+                case "createdAt":
+                    sort = Sort.by("createdAt");
+                    break;
+                case "createdAtDesc":
+                    sort = Sort.by("createdAt").descending();
+                    break;
                 default:
                     break;
             }
