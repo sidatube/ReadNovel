@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class ChangePassword extends ForgotPassword {
     private String oldPassword;
     private String password;
