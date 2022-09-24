@@ -12,6 +12,7 @@ import java.sql.Date;
 public class DonateFilter {
     private String username;
     private String code;
+    private int month;
     private int index=1;
     private int size=20;
 //    private Date startDate;

@@ -107,7 +107,11 @@ public class DonateService {
         Date ts = new java.sql.Date(System.currentTimeMillis());
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(ts);
-        return repository.findDonateListByMonth(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR),pageable).map(DonateDto::new);
+        int month = calendar.get(Calendar.MONTH);
+        if  (filter.getMonth()>0&&filter.getMonth()<=month){
+            month = filter.getMonth();
+        }
+        return repository.findDonateListByMonth(month, calendar.get(Calendar.YEAR),pageable).map(DonateDto::new);
     }
 
 }
