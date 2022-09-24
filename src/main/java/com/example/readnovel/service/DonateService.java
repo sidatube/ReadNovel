@@ -102,9 +102,9 @@ public class DonateService {
         calendar.setTime(ts);
         StatisticalItem data = new StatisticalItem();
         data.setDonateInMonth(repository.findDonateCount(calendar.get(Calendar.YEAR)));
-        data.setNovelCount(novelRepository.count());
-        data.setUserCount(accountRepository.count());
-        data.setChapterCount(chapterRepository.count());
+//        data.setNovelCount(novelRepository.count());
+//        data.setUserCount(accountRepository.count());
+//        data.setChapterCount(chapterRepository.count());
         return data ;
     }
     public Object getListDonateInMount(DonateFilter filter){
