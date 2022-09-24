@@ -184,21 +184,34 @@ public class AccountService {
         return true;
     }
 
-    public Object adminChangeInfo(AccountDTO newAcc) throws CustomException {
-        Account account = accountRepository.findByUsername(newAcc.getUsername()).orElse(null);
-        if (account == null) {
+    public Object adminChangeInfo(AccountDTO dto) throws CustomException {
+        Optional<Account> optionalAccount = accountRepository.findByUsername(dto.getUsername());
+        if (!optionalAccount.isPresent()) {
             StringHelper.customException("Not Found Account");
         }
-        Optional<Account> accountOptional = accountRepository.findByEmail(newAcc.getEmail());
+        Account account = optionalAccount.get();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Account> optionalStaff = accountRepository.findByUsername(username);
+        Account staff = optionalStaff.get();
+
+        if (staff.getUsername().contains(account.getUsername())) {
+            throw new CustomException("Can't delete self");
+        }
+        if (!staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
+            if (account.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
+                throw new CustomException("Khonog du quyen");
+            }
+        }
+        Optional<Account> accountOptional = accountRepository.findByEmail(dto.getEmail());
         if (accountOptional.isPresent()) {
             StringHelper.customException("Email had exit!");
         }
-        Set<Role> roles = new HashSet<>(roleRepository.findByNameIn(newAcc.getRoles()));
-        account.setStatus(newAcc.getStatus());
+        Set<Role> roles = new HashSet<>(roleRepository.findByNameIn(dto.getRoles()));
+        account.setStatus(dto.getStatus());
         account.setRoles(roles);
-        account.setName(newAcc.getName());
-        account.setAvatar(newAcc.getAvatar());
-        account.setDateOfBirth(newAcc.getDateOfBirth());
+        account.setName(dto.getName());
+        account.setAvatar(dto.getAvatar());
+        account.setDateOfBirth(dto.getDateOfBirth());
         return new AccountDTO(accountRepository.save(account));
 
     }
