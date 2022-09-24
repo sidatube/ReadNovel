@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 public class StatisticalItem {
     private List<DonateInMonth> donateInMonth;
-    private int userCount;
-    private int novelCount;
+    private long userCount;
+    private long novelCount;
 }

@@ -46,7 +46,7 @@ public class DonateController {
     @GetMapping("getStatistical")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> getStatistical() throws CustomException {
-        return ResponseEntity.ok().body(service.getDonateInMonth());
+        return ResponseEntity.ok().body(service.getStatistical());
     }
     @PostMapping("getDonateInMonth")
     @PreAuthorize("hasAnyAuthority('admin','mod')")

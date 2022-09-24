@@ -22,7 +22,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -94,12 +93,14 @@ public class DonateService {
         return true;
     }
 
-    public Object getDonateInMonth() {
+    public Object getStatistical() {
         Date ts = new java.sql.Date(System.currentTimeMillis());
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(ts);
         StatisticalItem data = new StatisticalItem();
         data.setDonateInMonth(repository.findDonateCount(calendar.get(Calendar.YEAR)));
+        data.setNovelCount(novelRepository.count());
+        data.setUserCount(accountRepository.count());
         return data ;
     }
     public Object getListDonateInMount(DonateFilter filter){
