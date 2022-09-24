@@ -173,12 +173,15 @@ public class AccountService {
     public Boolean deleteAccount(String id) throws CustomException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Account> optionalStaff = accountRepository.findByUsername(username);
-        Optional<Account> optionalDeleted = accountRepository.findByUsername(id);
+        Optional<Account> optionalDeleted = accountRepository.findById(id);
         if (!optionalDeleted.isPresent()){
             throw  new CustomException("Account not Exist!");
         }
         Account staff = optionalStaff.get();
         Account deleted = optionalDeleted.get();
+        if (staff.getUsername().contains(deleted.getUsername())){
+            throw  new CustomException("Can't delete self");
+        }
         if (staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")){
             accountRepository.deleteById(id);
         }
