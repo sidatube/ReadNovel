@@ -15,12 +15,13 @@ import java.util.List;
 
 @Repository
 public interface DonateRepository extends JpaRepository<DonateHistory, String>, JpaSpecificationExecutor<DonateHistory> {
-    @Query(value = "select sum(d.amount) as total ,month(d.created_at) as month  " +
-            " from donate_history d  where year(d.created_at)=:year group by month(d.created_at) ",nativeQuery = true)
+    @Query(value = "select sum(d.amount) as total ,extract( month from d.created_at ) as month  " +
+            " from donate_history d " +
+            " where extract(year  from d.created_at )=:year group by extract( month from d.created_at ) ",nativeQuery = true)
     List<DonateInMonth> findDonateCount(int year);
 
-    @Query(value = "select * from donate_history as d where year(d.created_at)=:year and month(d.created_at)=:month ",
-            countQuery = "select count(*) from donate_history as d where year(d.created_at)=:year and month(d.created_at)=:month ",
+    @Query(value = "select * from donate_history as d where extract(year  from d.created_at )=:year and extract( month from d.created_at )=:month ",
+            countQuery = "select count(*) from donate_history as d where extract(year  from d.created_at )=:year and extract( month from d.created_at )=:month ",
             nativeQuery = true)
     Page<DonateHistory> findDonateListByMonth(int month, int year, Pageable pageable);
 }

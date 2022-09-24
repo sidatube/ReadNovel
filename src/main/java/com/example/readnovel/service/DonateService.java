@@ -112,7 +112,7 @@ public class DonateService {
         Date ts = new java.sql.Date(System.currentTimeMillis());
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(ts);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) +1;
         if  (filter.getMonth()>0&&filter.getMonth()<=month){
             month = filter.getMonth();
         }
