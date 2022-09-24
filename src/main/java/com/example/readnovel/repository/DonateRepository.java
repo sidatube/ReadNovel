@@ -15,8 +15,6 @@ import java.util.List;
 
 @Repository
 public interface DonateRepository extends JpaRepository<DonateHistory, String>, JpaSpecificationExecutor<DonateHistory> {
-    @Transactional
-    @Modifying
     @Query(value = "select sum(d.amount) as total ,month(d.created_at) as month  " +
             " from donate_history d  where year(d.created_at)=:year group by month(d.created_at) ",nativeQuery = true)
     List<DonateInMonth> findDonateCount(int year);
