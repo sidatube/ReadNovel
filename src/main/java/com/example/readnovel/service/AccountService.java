@@ -1,5 +1,9 @@
 package com.example.readnovel.service;
 
+import com.example.readnovel.Filter.AccountFilter;
+import com.example.readnovel.constant.SearchCriteriaOperator;
+import com.example.readnovel.criteriaFilter.AccountSpecification;
+import com.example.readnovel.criteriaFilter.SearchCriteria;
 import com.example.readnovel.customException.CustomException;
 import com.example.readnovel.entity.Account;
 import com.example.readnovel.entity.Novel;
@@ -17,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,12 +42,51 @@ public class AccountService {
     private RoleRepository roleRepository;
     @Autowired
     private NovelRepository novelRepository;
-    @Autowired
-    private ModelMapper modelMapper;
 
-    public Page<Object> getList(int index, int size) {
-        Pageable sort = getPageable(index, size);
-        Page<Account> page = accountRepository.findAll(sort);
+
+    public Page<Object> getList(AccountFilter filter) {
+        Specification<Account> specification = Specification.where(null);
+        if (filter.getName() != null && !filter.getName().isEmpty()) {
+            AccountSpecification name = new AccountSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, filter.getName()));
+            specification = specification.and(name);
+        }
+        if (filter.getUsername() != null && !filter.getUsername().isEmpty()) {
+            AccountSpecification username = new AccountSpecification(new SearchCriteria("username", SearchCriteriaOperator.Like, filter.getUsername()));
+            specification = specification.and(username);
+        }
+        if (filter.getEmail() != null && !filter.getEmail().isEmpty()) {
+            AccountSpecification email = new AccountSpecification(new SearchCriteria("email", SearchCriteriaOperator.Like, filter.getEmail()));
+            specification = specification.and(email);
+        }
+        if (filter.getRoles() != null && !filter.getRoles().isEmpty()) {
+            for (String str : filter.getRoles()
+            ) {
+                AccountSpecification role = new AccountSpecification(new SearchCriteria("join", SearchCriteriaOperator.Join, str));
+                specification = specification.and(role);
+            }
+        }
+        Sort sort = Sort.by("username");
+        switch (filter.getSortBy()) {
+            case "usernameDesc":
+                sort = Sort.by("username").descending();
+                break;
+            case "name":
+                sort = Sort.by("name");
+                break;
+            case "nameDesc":
+                sort = Sort.by("name").descending();
+                break;
+            case "email":
+                sort = Sort.by("email");
+                break;
+            case "emailDesc":
+                sort = Sort.by("email").descending();
+                break;
+            default:
+                break;
+        }
+        Pageable pageable = PageRequest.of(filter.getIndex() - 1, filter.getSize(),sort );
+        Page<Account> page = accountRepository.findAll(specification, pageable);
         return page.map(AccountDTO::new);
     }
 
@@ -174,21 +219,20 @@ public class AccountService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Account> optionalStaff = accountRepository.findByUsername(username);
         Optional<Account> optionalDeleted = accountRepository.findById(id);
-        if (!optionalDeleted.isPresent()){
-            throw  new CustomException("Account not Exist!");
+        if (!optionalDeleted.isPresent()) {
+            throw new CustomException("Account not Exist!");
         }
         Account staff = optionalStaff.get();
         Account deleted = optionalDeleted.get();
-        if (staff.getUsername().contains(deleted.getUsername())){
-            throw  new CustomException("Can't delete self");
+        if (staff.getUsername().contains(deleted.getUsername())) {
+            throw new CustomException("Can't delete self");
         }
-        if (staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")){
+        if (staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
             accountRepository.deleteById(id);
-        }
-        else {
-            if (deleted.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")){
-                throw  new CustomException("Khonog du quyen");
-            }else
+        } else {
+            if (deleted.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
+                throw new CustomException("Khonog du quyen");
+            } else
                 accountRepository.deleteById(id);
 
         }

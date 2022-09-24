@@ -1,5 +1,6 @@
 package com.example.readnovel.controller;
 
+import com.example.readnovel.Filter.AccountFilter;
 import com.example.readnovel.customException.CustomException;
 import com.example.readnovel.entity.Account;
 import com.example.readnovel.entity.dto.AccountDTO;
@@ -18,11 +19,10 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping
+    @PostMapping
     @PreAuthorize("hasAnyAuthority('admin','mod')")
-    public ResponseEntity<Object> getListAccount(@RequestParam(defaultValue = "1") int pageIndex,
-                                                 @RequestParam(defaultValue = "10") int pageSize) {
-        return ResponseEntity.ok(accountService.getList(pageIndex, pageSize));
+    public ResponseEntity<Object> getListAccount(@RequestBody AccountFilter filter) {
+        return ResponseEntity.ok(accountService.getList(filter));
     }
     @GetMapping("detail")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
