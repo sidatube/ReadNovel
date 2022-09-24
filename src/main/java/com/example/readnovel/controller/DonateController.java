@@ -43,4 +43,14 @@ public class DonateController {
     public ResponseEntity<Object> getDetail(@RequestParam(defaultValue = "")String  id) throws CustomException {
         return ResponseEntity.ok().body(service.getDetail(id));
     }
+    @GetMapping("getStatistical")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
+    public ResponseEntity<Object> getStatistical() throws CustomException {
+        return ResponseEntity.ok().body(service.getDonateInMonth());
+    }
+    @GetMapping("getDonateInMonth")
+    @PreAuthorize("hasAnyAuthority('admin','mod')")
+    public ResponseEntity<Object> getDonateInMonth(@RequestBody DonateFilter filter) throws CustomException {
+        return ResponseEntity.ok().body(service.getListDonateInMount(filter));
+    }
 }
