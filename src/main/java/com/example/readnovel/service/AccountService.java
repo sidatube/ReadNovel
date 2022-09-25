@@ -61,7 +61,7 @@ public class AccountService {
         if (filter.getRoles() != null && !filter.getRoles().isEmpty()) {
             for (String str : filter.getRoles()
             ) {
-                AccountSpecification role = new AccountSpecification(new SearchCriteria("join", SearchCriteriaOperator.Join, str));
+                AccountSpecification role = new AccountSpecification(new SearchCriteria("roles", SearchCriteriaOperator.Join, str));
                 specification = specification.and(role);
             }
         }

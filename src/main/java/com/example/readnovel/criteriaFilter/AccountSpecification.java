@@ -14,11 +14,21 @@ public class AccountSpecification extends GenericSpecification<Account> {
     @Override
     public Predicate toPredicate(Root<Account> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         if (getSearchCriteria().getOperator() == SearchCriteriaOperator.Join) {
-            if ("roles".equals(getSearchCriteria().getKey().toLowerCase(Locale.ROOT))) {
-                Join<Account, Role> novelAccountJoin = root.join("roles");
-                return criteriaBuilder.equal(novelAccountJoin.get("name"), getSearchCriteria().getValue());
-            }
+            switch (getSearchCriteria().getKey().toLowerCase(Locale.ROOT)) {
 
+                case "roles":
+                    Join<Account, Role> join = root.join("roles");
+                    return criteriaBuilder.equal(join.get("name"), getSearchCriteria().getValue());
+//                    query.distinct(true);
+//                    Root<Account> accountRoot = query.from(Account.class);
+//                    Expression<Collection<Novel>> followsNovel = accountRoot.get("novels");
+//                    return criteriaBuilder.and(
+//                            criteriaBuilder.equal(accountRoot.get("username"), getSearchCriteria().getValue()),
+//                            criteriaBuilder.isMember(root, followsNovel));
+
+                default:
+                    break;
+            }
         }
         return super.toPredicate(root, query, criteriaBuilder);
     }
