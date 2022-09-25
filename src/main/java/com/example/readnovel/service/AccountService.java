@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -172,10 +173,22 @@ public class AccountService {
     }
 
     public boolean adminChangePassword(ChangePassword changePassword) throws CustomException {
-        Account account = accountRepository.findByUsername(changePassword.getUsername()).orElse(null);
-        if (account == null) {
+        Optional<Account> optionalAccount = accountRepository.findByUsername(changePassword.getUsername());
+        if (!optionalAccount.isPresent()) {
             StringHelper.customException("Not Found Account");
         }
+        Account account = optionalAccount.get();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Account> optionalStaff = accountRepository.findByUsername(username);
+        Account staff = optionalStaff.get();
+
+        if (!staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
+            List<String > accountRoles =account.getRoles().stream().map(Role::getName).collect(Collectors.toList());
+            if (accountRoles.contains("admin")||accountRoles.contains("mod")) {
+                throw new CustomException("Khonog du quyen");
+            }
+        }
+
         if (!changePassword.getPassword().equals(changePassword.getRepeatPassword())) {
             StringHelper.customException("Password and repeat password are not same!");
         }
