@@ -201,12 +201,18 @@ public class AccountService {
             if (account.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
                 throw new CustomException("Khonog du quyen");
             }
+            dto.getRoles().remove("admin");
         }
-        Optional<Account> accountOptional = accountRepository.findByEmail(dto.getEmail());
-        if (accountOptional.isPresent()) {
-            StringHelper.customException("Email had exit!");
+        if(!dto.getEmail().equals(account.getUsername())){
+            Optional<Account> accountOptional = accountRepository.findByEmail(dto.getEmail());
+            if (accountOptional.isPresent()) {
+                StringHelper.customException("Email had exit!");
+            }
         }
         Set<Role> roles = new HashSet<>(roleRepository.findByNameIn(dto.getRoles()));
+        if (roles.isEmpty()){
+            StringHelper.customException("Role had null!");
+        }
         account.setStatus(dto.getStatus());
         account.setRoles(roles);
         account.setName(dto.getName());
