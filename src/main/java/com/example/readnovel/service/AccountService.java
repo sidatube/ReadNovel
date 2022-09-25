@@ -194,9 +194,6 @@ public class AccountService {
         Optional<Account> optionalStaff = accountRepository.findByUsername(username);
         Account staff = optionalStaff.get();
 
-        if (staff.getUsername().contains(account.getUsername())) {
-            throw new CustomException("Can't delete self");
-        }
         if (!staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
             if (account.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
                 throw new CustomException("Khonog du quyen");
