@@ -203,7 +203,7 @@ public class AccountService {
             }
             dto.getRoles().remove("admin");
         }
-        if(!dto.getEmail().equals(account.getUsername())){
+        if(!dto.getEmail().equals(account.getEmail())){
             Optional<Account> accountOptional = accountRepository.findByEmail(dto.getEmail());
             if (accountOptional.isPresent()) {
                 StringHelper.customException("Email had exit!");
