@@ -28,4 +28,5 @@ public abstract class BaseEntity {
     private String createdBy;
     @LastModifiedBy
     private String updatedBy;
+    private boolean isDeleted=false;
 }

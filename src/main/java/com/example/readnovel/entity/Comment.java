@@ -34,7 +34,7 @@ public class Comment extends BaseEntity {
     private String content;
     @ManyToOne(cascade = CascadeType.REFRESH)
     private Account account;
-    private boolean isDeleted;
+
     @ManyToOne(cascade = CascadeType.REFRESH)
     private Novel novel;
     @ManyToOne(cascade = CascadeType.REFRESH)
