@@ -627,7 +627,7 @@ public class DataSeed implements CommandLineRunner {
             chapters.add(arafooChap0);
             chapters.add(arafooChap1);
             chapters.add(imotouChap);
-            Chapter oregairuChap =Chapter.builder()
+            Chapter oregairuChap = Chapter.builder()
                     .numberTitle("Prelude")
                     .volume(oregairu)
                     .title("Và rồi, Hikigaya Komachi đã nói…")
@@ -708,11 +708,11 @@ public class DataSeed implements CommandLineRunner {
                     .build();
             chapters.add(oregairuChap);
             chapterRepository.saveAll(chapters);
-            Novel arafooLn =arafoo.getNovel();
+            Novel arafooLn = arafoo.getNovel();
             arafooLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-            Novel oregairuLn =oregairu.getNovel();
+            Novel oregairuLn = oregairu.getNovel();
             oregairuLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-            Novel imotouLn =imotou.getNovel();
+            Novel imotouLn = imotou.getNovel();
             imotouLn.setLastUpdate(new Timestamp(System.currentTimeMillis()));
             novelRepository.save(arafooLn);
             novelRepository.save(imotouLn);
@@ -1204,9 +1204,27 @@ public class DataSeed implements CommandLineRunner {
         if (accountRepository.findAll().isEmpty()) {
             List<Role> roles = roleRepository.findAll();
             Set<Role> roleSet = new HashSet<>(roles);
+            List<String> roleMob = new ArrayList<>();
+            roleMob.add("user");
+            List<Role> user = roleRepository.findByNameIn(roleMob);
+            Set<Role> roleMobSet = new HashSet<>(user);
+
             String pass = bCryptPasswordEncoder.encode("admin");
-            Account account = Account.builder().name("admin").username("admin").email("admin@gmail.com").hashPass(pass).status(AccountStatusEnum.ACTIVE).roles(roleSet).build();
-            accountRepository.save(account);
+            Account admin = Account.builder().name("I'm Bruh").username("admin").email("admin@gmail.com").hashPass(pass).status(AccountStatusEnum.ACTIVE).roles(roleSet).build();
+            String pass123456 = bCryptPasswordEncoder.encode("123456");
+            List<Account> accounts = new ArrayList<>();
+            accounts.add(admin);
+            for (int i = 0; i < 20; i++) {
+                accounts.add(Account.builder()
+                        .name("Nhân vật quần chúng" + (i + 1))
+                        .username("user" + (i + 1))
+                        .email("user" + (i + 1) + "@gmail.com")
+                        .hashPass(pass123456)
+                        .status(AccountStatusEnum.ACTIVE)
+                        .roles(roleMobSet)
+                        .build());
+            }
+            accountRepository.saveAll(accounts);
         }
     }
 

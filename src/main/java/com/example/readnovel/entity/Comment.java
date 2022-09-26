@@ -4,6 +4,7 @@ import com.example.readnovel.entity.base.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,14 +22,17 @@ public class Comment extends BaseEntity {
     @GenericGenerator(name = "custom-name", strategy = "com.example.readnovel.util.CustomId", parameters = @Parameter(name = "prefix", value = "CMT"))
     private String id;
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+
     private Comment parent;
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     private Comment grandpa;
     @OneToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE}, mappedBy = "grandpa")
     @OrderBy("createdAt")
+    @Where(clause = "is_deleted = false")
     private List<Comment> child;
     @OneToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE}, mappedBy = "parent")
     @OrderBy("createdAt")
+    @Where(clause = "is_deleted = false")
     private List<Comment> children;
     @Column(columnDefinition = "TEXT")
     private String content;

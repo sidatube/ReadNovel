@@ -2,6 +2,7 @@ package com.example.readnovel.service;
 
 import com.example.readnovel.Filter.TypeFilter;
 import com.example.readnovel.constant.SearchCriteriaOperator;
+import com.example.readnovel.criteriaFilter.NovelSpecification;
 import com.example.readnovel.criteriaFilter.SearchCriteria;
 import com.example.readnovel.criteriaFilter.TypeSpecification;
 import com.example.readnovel.customException.CustomException;
@@ -30,11 +31,15 @@ public class TypeService {
     }
 
     public Object getAll() {
-
-        return  repository.findAll().stream().map(TypeDto::new);
+        Specification<Type> specification = Specification.where(null);
+        TypeSpecification notDelete = new TypeSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
+        specification = specification.and(notDelete);
+        return  repository.findAll(specification).stream().map(TypeDto::new);
     }
     public Object findAll(TypeFilter filter) {
         Specification<Type> specification = Specification.where(null);
+        TypeSpecification notDelete = new TypeSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
+        specification = specification.and(notDelete);
         if (!filter.getName().isEmpty()) {
             TypeSpecification nameFilter = new TypeSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, filter.getName()));
             specification = specification.and(nameFilter);

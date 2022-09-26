@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -43,6 +44,8 @@ public class Novel extends BaseEntity {
     private TranslationTeam translationTeam;
     @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     @JoinTable(name = "novel_type", joinColumns = @JoinColumn(name = "novelId"), inverseJoinColumns = @JoinColumn(name = "typeId"))
+    @OrderBy("name")
+    @Where(clause = "is_deleted = false")
     @JsonManagedReference
     private List<Type> types;
     @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH}, mappedBy = "novels")
@@ -56,6 +59,7 @@ public class Novel extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "novel")
     @JsonManagedReference
     @OrderBy("number")
+    @Where(clause = "is_deleted = false")
     private List<Volume> volumes;
     @ManyToOne()
     @JsonBackReference

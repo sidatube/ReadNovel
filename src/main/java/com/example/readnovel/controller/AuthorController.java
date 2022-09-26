@@ -1,5 +1,6 @@
 package com.example.readnovel.controller;
 
+import com.example.readnovel.Filter.AFirstFilter;
 import com.example.readnovel.customException.CustomException;
 import com.example.readnovel.entity.Author;
 import com.example.readnovel.entity.Type;
@@ -19,10 +20,14 @@ import org.springframework.web.bind.annotation.*;
 public class AuthorController {
     @Autowired
     private AuthorService service;
-
     @GetMapping
     public ResponseEntity<Object> getAll(@RequestParam(defaultValue = "") String name) {
         return ResponseEntity.ok(service.findAll(name));
+
+    }
+    @PostMapping
+    public ResponseEntity<Object> getFilter(@RequestBody AFirstFilter filter) {
+        return ResponseEntity.ok(service.findAll(filter));
 
     }
 

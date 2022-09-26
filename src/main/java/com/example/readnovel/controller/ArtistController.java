@@ -1,5 +1,6 @@
 package com.example.readnovel.controller;
 
+import com.example.readnovel.Filter.AFirstFilter;
 import com.example.readnovel.customException.CustomException;
 import com.example.readnovel.entity.Artist;
 import com.example.readnovel.entity.dto.AFirstDto;
@@ -23,7 +24,11 @@ public class ArtistController {
         return ResponseEntity.ok(service.findAll(name));
 
     }
+    @PostMapping
+    public ResponseEntity<Object> getFilter(@RequestBody AFirstFilter filter) {
+        return ResponseEntity.ok(service.findAll(filter));
 
+    }
     @PostMapping("create")
     public ResponseEntity<Object> addType(@RequestBody AFirstDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.add(dto));

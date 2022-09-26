@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,9 +36,9 @@ public class Volume extends BaseEntity {
     private Novel novel;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "volume")
     @OrderBy("number")
+    @Where(clause = "is_deleted = false")
     @JsonIgnoreProperties("volume")
     private List<Chapter> chapters;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

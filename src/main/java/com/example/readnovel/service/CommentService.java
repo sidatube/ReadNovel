@@ -2,6 +2,7 @@ package com.example.readnovel.service;
 
 import com.example.readnovel.Filter.CommentFilter;
 import com.example.readnovel.constant.SearchCriteriaOperator;
+import com.example.readnovel.criteriaFilter.AuthorSpecification;
 import com.example.readnovel.criteriaFilter.CommentSpecification;
 import com.example.readnovel.criteriaFilter.SearchCriteria;
 import com.example.readnovel.customException.CustomException;
@@ -123,6 +124,8 @@ public class CommentService {
 
     public Object getList(CommentFilter commentFilter) {
         Specification<Comment> specification = Specification.where(null);
+        CommentSpecification notDelete = new CommentSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
+        specification = specification.and(notDelete);
         if (!(commentFilter.getUsername() == null || commentFilter.getUsername().isEmpty())) {
             CommentSpecification nameFilter = new CommentSpecification(new SearchCriteria("createdBy", SearchCriteriaOperator.Like, commentFilter.getUsername()));
             specification = specification.and(nameFilter);

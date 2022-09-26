@@ -40,13 +40,11 @@ public class NovelController {
     public ResponseEntity<Object> getHot() {
         return ResponseEntity.ok().body(service.getHot().map(NovelMinDto::new));
     }
-
     @GetMapping("adminHot")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> adminGetHot() {
         return ResponseEntity.ok().body(service.getHot().map(NovelDto::new));
     }
-
     @PostMapping("create")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> save(@RequestBody NovelDto novelDto) throws CustomException {
@@ -143,15 +141,5 @@ public class NovelController {
     @PreAuthorize("hasAnyAuthority('admin','mod')")
     public ResponseEntity<Object> delChapter(@RequestParam(defaultValue = "") String id) throws CustomException {
         return ResponseEntity.status(HttpStatus.OK).body(chapterService.delete(id));
-    }
-
-    @GetMapping("chapter/next")
-    public ResponseEntity<Object> getNext(@RequestParam(defaultValue = "") String id) throws CustomException {
-        return ResponseEntity.status(HttpStatus.OK).body(chapterService.getNextChapter(id));
-    }
-
-    @GetMapping("chapter/previous")
-    public ResponseEntity<Object> getPrevious(@RequestParam(defaultValue = "") String id) throws CustomException {
-        return ResponseEntity.status(HttpStatus.OK).body(chapterService.getPreviousChapter(id));
     }
 }

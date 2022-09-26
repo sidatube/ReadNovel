@@ -57,6 +57,8 @@ public class DonateService {
 
     public Object getList(DonateFilter donateFilter) {
         Specification<DonateHistory> specification = Specification.where(null);
+        DonateSpecification notDelete = new DonateSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
+        specification = specification.and(notDelete);
         if (!donateFilter.getCode().isEmpty()) {
             DonateSpecification code = new DonateSpecification(new SearchCriteria("code", SearchCriteriaOperator.Equals, donateFilter.getCode()));
             specification = specification.and(code);
