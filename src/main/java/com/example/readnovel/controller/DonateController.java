@@ -28,7 +28,7 @@ public class DonateController {
     }
     @DeleteMapping("delete")
     @PreAuthorize("hasAnyAuthority('admin','mod')")
-    public ResponseEntity<Object> delete(@RequestParam(defaultValue = "")String  id) {
+    public ResponseEntity<Object> delete(@RequestParam(defaultValue = "")String  id) throws CustomException {
         return ResponseEntity.ok().body(service.delete(id));
     }
     @PostMapping("getHistory")
