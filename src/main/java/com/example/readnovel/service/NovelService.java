@@ -151,9 +151,7 @@ public class NovelService {
     }
 
     public Page<Novel> getList(NovelFilter novelFilter) {
-        Specification<Novel> specification = Specification.where(null);
-        NovelSpecification notDelete = new NovelSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
-        specification = specification.and(notDelete);
+        Specification<Novel> specification = getSpecification();
         if (!(novelFilter.getName() == null || novelFilter.getName().isEmpty())) {
             String strFilter = StringHelper.removeAccent(novelFilter.getName());
             NovelSpecification nameFilter = new NovelSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, strFilter));
@@ -238,13 +236,18 @@ public class NovelService {
         return new NovelDto(find);
     }
     public Page<Novel> getHot() {
-        Specification<Novel> specification = Specification.where(null);
-        NovelSpecification notDelete = new NovelSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
-        specification = specification.and(notDelete);
+        Specification<Novel> specification = getSpecification();
         Pageable pageable = PageRequest.of(0, 10, Sort.by("view").descending());
         return repository.findAll(specification,pageable);
     }
-
+    private Specification<Novel> getSpecification(){
+        Specification<Novel> specification = Specification.where(null);
+        NovelSpecification notDelete = new NovelSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
+        specification = specification.and(notDelete);
+        NovelSpecification isDel = new NovelSpecification(new SearchCriteria("is_author_del", SearchCriteriaOperator.Join, false));
+        specification = specification.and(isDel);
+        return specification;
+    }
     private Account findAccount(String username) throws CustomException {
         Optional<Account> optionalAccount = accountRepository.findByUsername(username);
         if (!optionalAccount.isPresent()) {
@@ -264,9 +267,7 @@ public class NovelService {
 
     public Object getFollowList(int index, int size) throws CustomException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Specification<Novel> specification = Specification.where(null);
-        NovelSpecification notDelete = new NovelSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
-        specification = specification.and(notDelete);
+        Specification<Novel> specification = getSpecification();
         NovelSpecification followsFilter = new NovelSpecification(new SearchCriteria("follows", SearchCriteriaOperator.Join, username));
         specification = specification.and(followsFilter);
         Pageable pageable = PageRequest.of(index - 1, size, Sort.by("lastUpdate").descending().and(Sort.by("name")));

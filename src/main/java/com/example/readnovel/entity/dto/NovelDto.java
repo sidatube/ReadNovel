@@ -56,7 +56,7 @@ public class NovelDto {
         slug = novel.getSlug();
         if (novel.getAuthor() != null)
             author = novel.getAuthor().getName();
-        if (novel.getArtist() != null)
+        if (novel.getArtist() != null&&!novel.getArtist().isDeleted())
             artist = novel.getArtist().getName();
         sensitiveContent = novel.getSensitiveContent();
         typeOfStory = novel.getTypeOfStory();

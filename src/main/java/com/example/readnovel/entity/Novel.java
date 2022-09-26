@@ -70,7 +70,6 @@ public class Novel extends BaseEntity {
     private Author author;
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH})
     @JoinColumn(name="artistId")
-    @Where(clause = "is_deleted = false")
     @JsonManagedReference
     private Artist artist;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "novel")

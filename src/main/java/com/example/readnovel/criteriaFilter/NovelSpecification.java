@@ -25,6 +25,13 @@ public class NovelSpecification extends GenericSpecification<Novel> {
 //                        criteriaBuilder.like(root.get("id"), "%" + getSearchCriteria().getValue() + "%"),
                             // hoặc tìm trong bảng product bản ghi có name giống với giá trị
                             criteriaBuilder.like(criteriaBuilder.lower(authorNovelJoin.get("name")), "%" + getSearchCriteria().getValue().toString().toLowerCase() + "%"));
+                case "is_author_del":
+                    Join<Novel, Author> author = root.join("author");
+                    return criteriaBuilder.or(
+                            // tìm trong order bản ghi có id giống giá trị truyền vào
+//                        criteriaBuilder.like(root.get("id"), "%" + getSearchCriteria().getValue() + "%"),
+                            // hoặc tìm trong bảng product bản ghi có name giống với giá trị
+                            criteriaBuilder.equal(author.get("isDeleted"), false));
                 case "artist":
                     Join<Artist, Novel> artistJoin = root.join("artist");
                     return criteriaBuilder.or(
