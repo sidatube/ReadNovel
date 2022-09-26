@@ -39,7 +39,7 @@ public class AuthorService {
             AuthorSpecification nameFilter = new AuthorSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, name));
             specification = specification.and(nameFilter);
         }
-        return  repository.findAll(specification);
+        return  repository.findAll(specification,Sort.by("name")).stream().map(AFirstDto::new);
     }
     public Object findAll(AFirstFilter filter) {
         Specification<Author> specification = Specification.where(null);
