@@ -28,6 +28,7 @@ public class AccountDTO {
     private Date dateOfBirth;
     private AccountStatusEnum status;
     private Timestamp createAt;
+    private boolean isDeleted;
 
     public AccountDTO(Account account) {
         if (account == null) {
@@ -43,5 +44,6 @@ public class AccountDTO {
             roles = account.getRoles().stream().map(Role::getName).collect(Collectors.toList());
         this.status = account.getStatus();
         createAt=account.getCreatedAt();
+        isDeleted= account.isDeleted();
     }
 }
