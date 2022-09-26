@@ -57,7 +57,9 @@ public class VolumeService {
     }
 
     public Boolean delete(String id) throws CustomException {
-        repository.deleteById(id);
+        Volume volume = findById(id);
+        volume.setDeleted(true);
+        repository.save(volume);
         return true;
     }
 

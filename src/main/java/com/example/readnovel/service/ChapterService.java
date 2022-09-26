@@ -90,8 +90,10 @@ public class ChapterService {
         return new ChapterDto(repository.save(old));
     }
 
-    public boolean delete(String id) {
-        repository.deleteById(id);
+    public boolean delete(String id) throws CustomException {
+        Chapter chapter=  findChapterById(id);
+        chapter.setDeleted(true);
+        repository.save(chapter);
         return true;
     }
 

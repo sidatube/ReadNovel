@@ -195,7 +195,8 @@ public class NovelService {
 
     public boolean adminDelete(String id) throws CustomException {
         Novel novel = findIdPrivate(id);
-        repository.deleteById(id);
+        novel.setDeleted(true);
+        repository.save(novel);
         return true;
     }
 

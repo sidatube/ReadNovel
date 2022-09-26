@@ -91,8 +91,14 @@ public class DonateService {
         return new DonateDto(repository.save(donateHistory));
     }
 
-    public boolean delete(String id) {
-        repository.deleteById(id);
+    public boolean delete(String id) throws CustomException {
+        Optional<DonateHistory> optional = repository.findById(id);
+        if (!optional.isPresent()){
+            throw new CustomException("Error!");
+        }
+        DonateHistory deleted = optional.get();
+        deleted.setDeleted(true);
+        repository.save(deleted);
         return true;
     }
 

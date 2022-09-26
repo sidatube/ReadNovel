@@ -48,6 +48,9 @@ public class AuthenticationService implements UserDetailsService {
             throw new UsernameNotFoundException("Username not exists!!");
         }
         Account account = optional.get();
+        if (account.isDeleted()){
+            throw new DataIntegrityViolationException("Username was deleted!");
+        }
         ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (Role role : account.getRoles()
         ) {

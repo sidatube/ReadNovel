@@ -47,6 +47,8 @@ public class AccountService {
 
     public Page<Object> getList(AccountFilter filter) {
         Specification<Account> specification = Specification.where(null);
+        AccountSpecification notDeleted = new AccountSpecification(new SearchCriteria("isDeleted", SearchCriteriaOperator.Equals, false));
+        specification = specification.and(notDeleted);
         if (filter.getName() != null && !filter.getName().isEmpty()) {
             AccountSpecification name = new AccountSpecification(new SearchCriteria("name", SearchCriteriaOperator.Like, filter.getName()));
             specification = specification.and(name);
@@ -265,14 +267,15 @@ public class AccountService {
             throw new CustomException("Can't delete self");
         }
         if (staff.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
-            accountRepository.deleteById(id);
+            deleted.setDeleted(true);
         } else {
             if (deleted.getRoles().stream().map(Role::getName).collect(Collectors.toList()).contains("admin")) {
                 throw new CustomException("Khonog du quyen");
             } else
-                accountRepository.deleteById(id);
+                deleted.setDeleted(true);
 
         }
+        accountRepository.save(deleted);
         return true;
 
     }

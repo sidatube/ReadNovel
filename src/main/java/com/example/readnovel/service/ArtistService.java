@@ -53,7 +53,8 @@ public class ArtistService {
 
     public Object delete(String id) throws CustomException {
         Artist old = findById(id);
-        repository.delete(old);
+        old.setDeleted(true);
+        repository.save(old);
         return true;
     }
 }

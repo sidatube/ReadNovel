@@ -66,7 +66,8 @@ public class TypeService {
 
     public Object delete(String id) throws CustomException {
         Type old = findById(id);
-        repository.delete(old);
+        old.setDeleted(true);
+        repository.save(old);
         return true;
     }
 

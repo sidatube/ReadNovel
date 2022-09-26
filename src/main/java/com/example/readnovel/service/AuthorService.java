@@ -53,7 +53,8 @@ public class AuthorService {
 
     public Object delete(String id) throws CustomException {
         Author old = findById(id);
-        repository.delete(old);
+        old.setDeleted(true);
+        repository.save(old);
         return true;
     }
 }
