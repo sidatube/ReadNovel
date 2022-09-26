@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Author extends BaseEntity {
     private String name;
     private String otherName;
     @OneToMany( mappedBy = "author")
+    @Where(clause = "is_deleted = false")
     @JsonBackReference
     private List<Novel> novels;
 

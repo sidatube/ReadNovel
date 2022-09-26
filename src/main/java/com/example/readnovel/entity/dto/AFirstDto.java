@@ -16,16 +16,19 @@ import java.sql.Timestamp;
 public class AFirstDto {
     private String id;
     private String name="";
+    private long novelCount;
     private Timestamp createdAt;
 
     public AFirstDto(Author author) {
         id = author.getId();
         name=author.getName();
         createdAt= author.getCreatedAt();
+        novelCount = author.getNovels().size();
     }
     public AFirstDto(Artist artist) {
         id = artist.getId();
         name=artist.getName();
+        novelCount = artist.getNovels().size();
         createdAt= artist.getCreatedAt();
     }
 }
