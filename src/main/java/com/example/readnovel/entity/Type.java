@@ -9,6 +9,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -30,4 +31,16 @@ public class Type extends BaseEntity {
     @JsonBackReference
     private List<Novel> novels;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Type type = (Type) o;
+        return Objects.equals(id, type.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
