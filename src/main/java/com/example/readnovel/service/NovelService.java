@@ -51,10 +51,14 @@ public class NovelService {
         Account translator = accountRepository.findByUsername(username).orElse(null);
         Optional<Author> optionalAuthor = authorRepository.findByName(dto.getAuthor());
         Optional<Artist> optionalArtist = artistRepository.findByName(dto.getArtist());
-        Artist artist;
-        Author author;
-        artist = optionalArtist.orElseGet(() -> artistRepository.save(Artist.builder().name(dto.getArtist()).build()));
-        author = optionalAuthor.orElseGet(() -> authorRepository.save(Author.builder().name(dto.getAuthor()).build()));
+        Artist artist=null;
+        Author author=null;
+        if (dto.getArtist()!=null&&!dto.getArtist().isEmpty()){
+            artist = optionalArtist.orElseGet(() -> artistRepository.save(Artist.builder().name(dto.getArtist()).build()));
+        }
+        if (dto.getAuthor()!=null&&!dto.getAuthor().isEmpty()){
+            author = optionalAuthor.orElseGet(() -> authorRepository.save(Author.builder().name(dto.getAuthor()).build()));
+        }
         TranslationTeam translationTeam = translationTeamRepository.findByName(username).orElse(null);
         if (translator == null) {
             throw new CustomException("Username not found!");
@@ -69,8 +73,6 @@ public class NovelService {
         Novel novel = Novel.builder()
                 .types(types)
                 .name(dto.getName())
-                .artist(artist)
-                .author(author)
                 .avatar(dto.getAvatar())
                 .extraNote(dto.getExtraNote())
                 .sensitiveContent(dto.getSensitiveContent())
@@ -82,6 +84,12 @@ public class NovelService {
                 .lastUpdate(new Timestamp(System.currentTimeMillis()))
                 .translationTeam(translationTeam)
                 .build();
+        if (dto.getArtist()!=null&&!dto.getArtist().isEmpty()){
+            novel.setArtist(artist);
+        }
+        if (dto.getAuthor()!=null&&!dto.getAuthor().isEmpty()){
+            novel.setAuthor(author);
+        }
         if (novel.getName().isEmpty()) {
             throw new CustomException("Name id require");
         }
@@ -108,15 +116,26 @@ public class NovelService {
         checkTranslation(username, old);
         Optional<Author> optionalAuthor = authorRepository.findByName(newNovel.getAuthor());
         Optional<Artist> optionalArtist = artistRepository.findByName(newNovel.getArtist());
-        Artist artist;
-        Author author;
-        artist = optionalArtist.orElseGet(() -> artistRepository.save(Artist.builder().name(newNovel.getArtist()).build()));
-        author = optionalAuthor.orElseGet(() -> authorRepository.save(Author.builder().name(newNovel.getAuthor()).build()));
+        Artist artist=null;
+        Author author=null;
+        if (newNovel.getArtist()!=null&&!newNovel.getArtist().isEmpty()){
+            artist = optionalArtist.orElseGet(() -> artistRepository.save(Artist.builder().name(newNovel.getArtist()).build()));
+        }
+        if (newNovel.getAuthor()!=null&&!newNovel.getAuthor().isEmpty()){
+            author = optionalAuthor.orElseGet(() -> authorRepository.save(Author.builder().name(newNovel.getAuthor()).build()));
+        }
         List<Type> types = typeRepository.findByNameIn(newNovel.getTypes());
+
         old.setName(newNovel.getName());
         old.setTypes(types);
-        old.setArtist(artist);
-        old.setAuthor(author);
+        old.setAuthor(null);
+        old.setArtist(null);
+        if (newNovel.getArtist()!=null&&!newNovel.getArtist().isEmpty()){
+            old.setArtist(artist);
+        }
+        if (newNovel.getAuthor()!=null&&!newNovel.getAuthor().isEmpty()){
+            old.setAuthor(author);
+        }
         old.setAvatar(newNovel.getAvatar());
         old.setOtherName(newNovel.getOtherName());
         old.setExtraNote(newNovel.getExtraNote());

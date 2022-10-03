@@ -77,10 +77,11 @@ public class NovelDto {
             ) {
                 chapters.addAll(volume.getChapters());
             }
-            Chapter last = Collections.max(chapters, Comparator.comparing(Chapter::getCreatedAt));
-
-            lastChapter = new ChapterMinDto(last);
-            lastVol = new VolumeDto(last.getVolume());
+            if(!chapters.isEmpty()){
+                Chapter last = Collections.max(chapters, Comparator.comparing(Chapter::getCreatedAt));
+                lastChapter = new ChapterMinDto(last);
+                lastVol = new VolumeDto(last.getVolume());
+            }
         }
 
         if (novel.getAccounts() != null) {
