@@ -50,9 +50,9 @@ public class DataSeed implements CommandLineRunner {
     }
 
     private void fakerData() {
-//        if (!novelRepository.findAll().isEmpty()) {
-//            return;
-//        }
+        if (!novelRepository.findAll().isEmpty()) {
+            return;
+        }
         List<String> novelName = new ArrayList<>();
         List<String> novelThumbnail = new ArrayList<>();
 
