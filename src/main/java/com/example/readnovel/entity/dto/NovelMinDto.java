@@ -38,10 +38,14 @@ public class NovelMinDto {
             ) {
                 chapters.addAll(volume.getChapters());
             }
-            Chapter last = Collections.max(chapters, Comparator.comparing(Chapter::getCreatedAt));
-            lastChapTitle =last.getNumberTitle()+": "+ last.getTitle();
-            lastChapId = last.getId();
-            volumeName = last.getVolume().getTitle();
+
+            if(!chapters.isEmpty()){
+                Chapter last = Collections.max(chapters, Comparator.comparing(Chapter::getCreatedAt));
+                lastChapTitle =last.getNumberTitle()+": "+ last.getTitle();
+                lastChapId = last.getId();
+                volumeName = last.getVolume().getTitle();
+            }
+
 
         }
 
